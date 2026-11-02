@@ -32,7 +32,7 @@ for(const page of htmls){
  }
  assert.ok(h.includes('id="app"'),"App mount missing in "+page);
 }
-const allPublic=[...htmls,"assets/app.js","assets/hq-data.js","assets/style.css","assets/premium.css","assets/motion.js","assets/project-board.js","data/overview.json","README.md"].map(read).join("\n");
+const allPublic=[...htmls,"assets/app.js","assets/hq-data.js","assets/chat-roles.js","assets/chat-launch.js","assets/style.css","assets/premium.css","assets/motion.js","assets/project-board.js","data/overview.json","README.md"].map(read).join("\n");
 for(const restricted of ["rooxemillions@", "Gumroad", "AIza", "sk-proj-", "ghp_", "Bearer eyJ"]){
  assert.equal(allPublic.includes(restricted),false,"Forbidden public token/project reference: "+restricted);
 }
@@ -42,6 +42,22 @@ assert.ok(read("assets/project-board.js").includes("LOCAL PREVIEW"),"Project boa
 assert.ok(read("systems/management.html").includes("assets/motion.js"),"Management hub missing motion");
 assert.ok(read("systems/owner-data.html").includes("assets/owner-live.js"),"Owner OAuth reader module missing");
 assert.ok(read("systems/chat-launchpad.html").includes("assets/chat-launch.js"),"Chat starter module missing");
+assert.ok(read("systems/chat-launchpad.html").includes("assets/chat-roles.js"),"Nine chat roles module not linked");
+const roles=JSON.parse(read("assets/chat-roles.js").replace(/^window\.VAVE_CHAT_ROLES = /,"").trim().replace(/;\s*$/,""));
+assert.equal(roles.length,9,"All nine original and new chats must be listed");
+assert.equal(new Set(roles.map(x=>x.number)).size,9,"Chat numbers must be unique");
+assert.equal(roles.filter(x=>x.state==="existing").length,7,"Preserve seven original chats");
+assert.equal(roles.filter(x=>x.state==="new").length,2,"Only 07 and 08 should be new chats");
+assert.equal(roles.find(x=>x.number==="05")?.original,"05 — Products & Store","Preserve existing chat 05 identity");
+for(const role of roles){
+ assert.ok(role.prompt.includes("Company Chat Registry"),"Missing shared register in chat "+role.number);
+ assert.ok(role.sourceDoc.startsWith("https://github.com/vavebusiness/vaveautomations/blob/main/"),"Missing instruction source "+role.number);
+ const relative=role.sourceDoc.split("/blob/main/")[1];
+ assert.ok(existsSync(join(root,relative)),"Missing chat instruction reference "+relative);
+}
+assert.ok(read("assets/owner-live.js").includes("Company Chat Registry"),"Owner reader must load the chat registry");
+assert.ok(read("assets/app.js").includes("chat-launchpad.html?chat="),"Department chat deep links missing");
+
 assert.ok(read("assets/owner-live.js").includes("spreadsheets.readonly"),"Owner reader must use read-only Sheets scope");
 assert.ok(!read("assets/owner-live.js").includes("localStorage.setItem(\"googleAccessToken\""),"OAuth token cannot be stored");
-console.log("PASS: 18 site routes, 7 department playbooks, 9 source tabs, 3 company workflows, premium UI and sanitized snapshot");
+console.log("PASS: 18 routes, 7 preserved chats, 2 new specialist role definitions, 9 source instructions and read-only chat registry");
