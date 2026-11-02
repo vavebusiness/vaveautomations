@@ -421,3 +421,69 @@ a,button,select{touch-action:manipulation}
 .owner-restore .action-button:disabled{opacity:.5;cursor:progress;transform:none}
 @media(max-width:830px){.owner-restore{flex-wrap:wrap;padding:23px}.owner-restore .action-button{width:100%}}
 @media(max-width:460px){.owner-restore-mark{width:39px;height:39px;border-radius:12px;font-size:22px}.owner-restore-info{flex:1 0 calc(100% - 62px)}.owner-restore-info h3{font-size:17px}}
+
+
+/* Nine-chat operations launchpad — premium, evidence-first, no fake connection states */
+.chatlaunch-all{position:relative;border-color:#525659;background:radial-gradient(ellipse 47% 73% at 98% 5%,rgba(226,143,97,.18),transparent 78%),linear-gradient(114deg,#1e272a,#1b2024 69%,#252322);padding:39px 40px}
+.chatlaunch-all h2{font-size:clamp(27px,3.7vw,43px);line-height:1.16;max-width:780px;letter-spacing:-1.6px}
+.chatlaunch-all>p{font-size:13px;max-width:760px}
+.chatlaunch-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}
+.chatlaunch-stats>span{display:flex;align-items:center;gap:9px;padding:9px 15px;border:1px solid #535052;border-radius:100px;background:rgba(10,13,15,.27);color:#c6c3c0;font-size:11px}
+.chatlaunch-stats strong{color:#f2b892;font:800 16px Manrope}
+.chat-control-bar{background:linear-gradient(120deg,#1c2326,#171c1f);border:1px solid #3d484a;padding:23px 25px;border-radius:19px;display:flex;justify-content:space-between;gap:18px;align-items:center;margin:23px 0 19px}
+.chat-control-title{min-width:0}.chat-control-title .eyebrow{margin-bottom:7px}
+.chat-control-title h3{font-size:14px;letter-spacing:-.3px;margin:0 0 6px}
+.chat-control-title p{color:#96a3a6;font-size:11px;margin:0;max-width:540px;line-height:1.75}
+.chat-control-inputs{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.chat-control-inputs>input{padding:11px 13px;border-radius:11px;background:#252d30;border:1px solid #4d595b;color:#f1eeeb;font-size:11px;width:245px}
+.chat-role-filter{display:flex;gap:4px;padding:4px;background:#13191c;border:1px solid #3c4548;border-radius:11px}
+.chat-role-filter button{border:0;border-radius:7px;background:transparent;padding:8px 10px;color:#8c9b9d;font-size:10px;font-weight:800;white-space:nowrap;transition:background .25s,color .25s}
+.chat-role-filter button:hover{color:#f1ddd0}
+.chat-role-filter button.active{background:#3c3531;color:#ffd0af;box-shadow:0 3px 12px #0003}
+.chat-step-guide{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0 34px}
+.chat-step-guide>div{display:flex;gap:11px;align-items:flex-start;padding:17px 13px;border-radius:13px;border:1px solid #394448;background:#1c2225;min-height:95px}
+.chat-step-guide span{flex:none;color:#e8aa87;border:1px solid #664a3d;border-radius:8px;padding:4px 6px;font:800 10px Manrope;background:#332824}
+.chat-step-guide p{color:#a6b1b3;font-size:10px;line-height:1.75;margin:0}
+.chat-role-group{margin:28px 0 36px}
+.chat-role-group-head{display:flex;align-items:end;justify-content:space-between;border-bottom:1px solid #344043;padding-bottom:15px;margin-bottom:16px;gap:15px}
+.chat-role-group-head h2{font:800 20px Manrope;letter-spacing:-.7px;margin:0}
+.chat-role-group-head>span{font-size:10px;color:#93a3a6;white-space:nowrap}
+.chat-role-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.chat-role-card{display:flex;flex-direction:column;position:relative;background:radial-gradient(ellipse at 100% 0%,rgba(105,83,66,.075),transparent 65%),linear-gradient(143deg,#21282b,#1a2023);border:1px solid #3a4749;border-radius:21px;padding:24px;min-width:0;overflow:hidden;box-shadow:0 8px 29px #0002,inset 0 1px 0 rgba(255,255,255,.025);transition:transform .48s var(--ease-out),border-color .35s,box-shadow .35s}
+.chat-role-card:hover{transform:translateY(-4px);border-color:#9c745d;box-shadow:0 18px 41px #0004}
+.chat-role-card.is-setup{border-color:#526c5b;background:linear-gradient(130deg,#212d29,#1c2427)}
+.chat-role-top{display:flex;align-items:flex-start;gap:14px}
+.chat-role-number{display:flex;justify-content:center;align-items:center;width:44px;height:44px;flex:none;border-radius:14px;background:#3b322e;border:1px solid #7c5c48;color:#f4bc99;font:800 18px Manrope}
+.chat-role-title{flex:1;min-width:0}
+.chat-role-title .eyebrow{font-size:9px;letter-spacing:1.1px;margin:0 0 5px;color:#b99b88}
+.chat-role-title h3{font-size:15px;line-height:1.45;letter-spacing:-.4px;margin:0 0 4px}
+.chat-role-origin{display:block;color:#7c9093;font-size:10px}
+.chat-role-state{border-radius:8px;border:1px solid #635344;color:#efb58e;background:#322922;padding:5px 8px;font-size:9px;font-weight:800;white-space:nowrap}
+.chat-role-state.setup{border-color:#567a62;background:#26382e;color:#a4d1b1}
+.chat-role-purpose{font-size:11px;line-height:1.85;color:#b7c0c1;margin:21px 0 16px;min-height:44px}
+.chat-remap{padding:12px 14px;border:1px solid #67574a;background:#2b2925;border-radius:11px;font-size:10px;color:#d3bdaf;line-height:1.8;margin:-4px 0 16px}
+.chat-remap strong{color:#e3ad88}
+.chat-role-evidence{border-top:1px solid #354144;padding-top:14px}
+.chat-role-evidence>span,.chat-role-handoff>span{color:#b5917d;font-size:9px;letter-spacing:1.25px;font-weight:800;display:block;margin-bottom:9px}
+.chat-role-evidence>div{display:flex;flex-wrap:wrap;gap:6px}
+.chat-source-tag{font-size:9px;color:#b7c4c2;border:1px solid #455457;background:#273034;padding:5px 8px;border-radius:8px}
+.chat-role-handoff{margin-top:16px}
+.chat-role-handoff p{font-size:10px;color:#adb7b9;line-height:1.75;margin:0}
+.chat-role-controls{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:auto;padding-top:22px}
+.chat-role-controls .action-button,.chat-role-controls .outline-button{padding:10px 12px;font-size:10px;min-height:37px}
+.chat-role-minor{border-top:1px solid #394346;margin-top:16px;padding-top:13px;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between;align-items:center}
+.chat-role-minor>a{font-size:10px;color:#e9b48e;font-weight:700}
+.chat-role-minor label{display:flex;align-items:center;gap:7px;color:#a9b4b6;font-size:10px;cursor:pointer}
+.chat-role-minor input{width:15px;height:15px;accent-color:#cc9970}
+.chat-role-zero{grid-column:1/-1;border:1px dashed #424c4f;padding:45px;border-radius:15px;text-align:center;color:#8a9b9f;font-size:12px}
+.chat-coordination-summary{margin:35px 0 28px;border-radius:22px;padding:28px 30px;border:1px solid #5a5049;background:radial-gradient(ellipse 38% 100% at 100% 10%,rgba(210,141,93,.12),transparent 80%),#202425;display:flex;align-items:center;gap:30px;justify-content:space-between}
+.chat-coordination-summary>div:first-child{max-width:660px}
+.chat-coordination-summary h3{font-size:19px;letter-spacing:-.7px;margin:0 0 10px}
+.chat-coordination-summary p{font-size:11px;color:#b2c0bf;line-height:1.85;margin:0}
+.chat-coordination-summary>div:last-child{flex:none;max-width:240px;display:flex;flex-direction:column;gap:8px;width:100%}
+.chat-coordination-summary .outline-button{font-size:10px;padding:9px 11px;text-align:center}
+@media(max-width:1350px){.chat-control-bar{flex-direction:column;align-items:stretch}.chat-control-inputs{justify-content:stretch}.chat-control-inputs>input{flex:1;min-width:180px;width:auto}.chat-step-guide{grid-template-columns:repeat(2,minmax(0,1fr))}.chat-role-grid{grid-template-columns:1fr}}
+@media(min-width:1550px){.chat-role-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:950px){.chat-coordination-summary{flex-direction:column;align-items:stretch}.chat-coordination-summary>div:last-child{max-width:none;flex-direction:row}.chat-coordination-summary .outline-button{flex:1}}
+@media(max-width:650px){.chatlaunch-all{padding:25px 21px}.chatlaunch-stats{gap:7px}.chatlaunch-stats>span{font-size:9px;padding:7px 10px}.chat-control-bar{padding:19px}.chat-role-filter{width:100%}.chat-role-filter button{flex:1}.chat-step-guide{grid-template-columns:1fr}.chat-step-guide>div{min-height:unset;padding:12px}.chat-role-card{padding:19px}.chat-role-top{flex-wrap:wrap}.chat-role-state{margin-left:58px}.chat-role-minor{align-items:flex-start;flex-direction:column}.chat-role-minor label{margin-top:4px}.chat-coordination-summary{padding:22px}.chat-coordination-summary>div:last-child{flex-direction:column}.chat-role-group-head h2{font-size:17px}}
+@media(prefers-reduced-motion:reduce){.chat-role-card:hover{transform:none}}
