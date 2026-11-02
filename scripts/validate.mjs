@@ -4,7 +4,7 @@ import {join,dirname,resolve} from "node:path";
 const root=resolve(import.meta.dirname,"..");
 const read=p=>readFileSync(join(root,p),"utf8");
 const departmentIds=["command","acquisition","sales","development","partnerships","portfolio","operations"];
-const systemIds=["pipeline","projects","management","tasks","workflows","databases","reports","integrations","roadmap"];
+const systemIds=["pipeline","projects","management","chatsetup","ownerdata","tasks","workflows","databases","reports","integrations","roadmap"];
 const htmls=["index.html",...departmentIds.filter(x=>x!=="command").map(x=>"departments/"+x+".html"),...systemIds.map(x=>"systems/"+x+".html")];
 const text=read("assets/hq-data.js").replace(/^window\.HQ_DATA = /,"").trim().replace(/;\s*$/,"");
 const model=JSON.parse(text);
@@ -40,4 +40,8 @@ assert.ok(!model.pipeline.some(x=>/[\w.-]+@[\w.-]+\.[A-Za-z]{2,}/.test(JSON.stri
 assert.ok(read("systems/projects.html").includes("assets/project-board.js"),"Project board missing UI module");
 assert.ok(read("assets/project-board.js").includes("LOCAL PREVIEW"),"Project board needs clear non-synced label");
 assert.ok(read("systems/management.html").includes("assets/motion.js"),"Management hub missing motion");
-console.log("PASS: 16 site routes, 7 department playbooks, 9 source tabs, 3 company workflows, premium UI and sanitized snapshot");
+assert.ok(read("systems/owner-data.html").includes("assets/owner-live.js"),"Owner OAuth reader module missing");
+assert.ok(read("systems/chat-launchpad.html").includes("assets/chat-launch.js"),"Chat starter module missing");
+assert.ok(read("assets/owner-live.js").includes("spreadsheets.readonly"),"Owner reader must use read-only Sheets scope");
+assert.ok(!read("assets/owner-live.js").includes("localStorage.setItem(\"googleAccessToken\""),"OAuth token cannot be stored");
+console.log("PASS: 18 site routes, 7 department playbooks, 9 source tabs, 3 company workflows, premium UI and sanitized snapshot");
