@@ -8,7 +8,7 @@ The HQ stays on public GitHub Pages. Its [Owner Live Data](https://vavebusiness.
 
 The Google OAuth **Client ID** is a public application identifier, not a secret. **Never enter the Client Secret, API key, password, or refresh token.**
 
-This is an interactive browser session, not an unattended synchronization service. The page reload requires a new short-lived grant; reads refresh about every two minutes while the page is visible and the token remains valid.
+This is an interactive browser session, not an unattended synchronization service. Refreshing clears all live CRM rows and temporary tokens by design. When your public Client ID has been configured, a **Reconnect your live CRM** panel appears at the top; click **Reconnect Sheets** to obtain a new temporary grant. Google's earlier scope approval may be reused, but account selection or a popup may still appear. The site remembers the public Client ID and your selected tab name, not secret tokens or customer records. Reads refresh about every two minutes while the page is visible and the token remains valid. Google's browser token model requires a user action to request a fresh token; a genuinely seamless automatic login across reloads would need a protected backend with an authenticated session.
 
 ## One-time setup — requires authorized Google account and permitted Cloud access
 
