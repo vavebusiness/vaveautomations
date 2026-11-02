@@ -1,0 +1,31 @@
+{
+  "source": "Vave Automations master CRM — Dashboard tab",
+  "snapshotDate": "2026-11-02",
+  "verifiedAt": "2026-11-02",
+  "mode": "manual-read-only-snapshot",
+  "note": "CRM source checked on 2 Nov 2026. These are CRM-tracked historical totals, not a live Google Sheets feed.",
+  "metrics": {
+    "acceptedMessages": 183,
+    "distinctRecipients": 179,
+    "awaitingReply": 158,
+    "positiveConversations": 2,
+    "opportunityRecords": 250,
+    "researchOnly": 174,
+    "bouncedAddresses": 8,
+    "verifiedPayingClients": 0,
+    "proposalsSent": 0
+  },
+  "departments": [
+    "Command Center",
+    "Client Acquisition",
+    "Sales & Conversations",
+    "Automation Development",
+    "Partnerships",
+    "Portfolio & Assets",
+    "Strategy & Operations"
+  ],
+  "sources": {
+    "masterCrm": "https://docs.google.com/spreadsheets/d/1UE69BCAxQeQthQm7Ja2RyFgGHv-1BZCRxClACRTZl1c/edit"
+  },
+  "privacy": "No personal contacts, email addresses, message bodies or tokens are included."
+}
