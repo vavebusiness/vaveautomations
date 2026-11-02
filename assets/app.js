@@ -72,7 +72,7 @@ function departmentPage(){
 const params=new URLSearchParams(location.search);
 const allowed=(department.views||[]).map(v=>v[0]);
 const view=allowed.includes(params.get("view"))?params.get("view"):"overview";
-let body=pageHeader("COMPANY / "+department.number,department.name,department.short,'<a class="small-link" href="'+source((department.resources||[])[0])+'" target="_blank" rel="noopener">Open source records ↗</a>');
+let body=pageHeader("COMPANY / "+department.number,department.name,department.short,'<a class="small-link" href="'+source((department.resources||[])[0])+'" target="_blank" rel="noopener">Source records ↗</a> <a class="small-link" href="'+root+'systems/chat-launchpad.html?chat='+encodeURIComponent(department.number)+'">Chat instructions ↗</a>');
 body+=deptTabs(department,view);
 body+=view==="playbook"?deptPlaybook(department):view==="work"?deptWork(department):view==="metrics"?deptMetrics(department):deptOverview(department);
 return body;
