@@ -16,7 +16,8 @@ window.HQ_DATA = {
     "qa": "https://docs.google.com/document/d/1fHRhk858xgoHnDW5lw89yQ7nJiv1zx62nGbMsO8osG0/edit",
     "aam": "https://docs.google.com/document/d/13tgAneS04GTacWGEomQ9gXPHH4XLMe4TUkVX-Pd9lfE/edit",
     "make": "https://eu2.make.com/",
-    "github": "https://github.com/vavebusiness/vaveautomations"
+    "github": "https://github.com/vavebusiness/vaveautomations",
+    "chatRegistry": "https://docs.google.com/spreadsheets/d/1UE69BCAxQeQthQm7Ja2RyFgGHv-1BZCRxClACRTZl1c/edit#gid=2070433"
   },
   "datasets": [
     {
@@ -1019,7 +1020,7 @@ window.HQ_DATA = {
         ]
       ],
       "focus": [
-        "Nine-tab Google Sheets master CRM is initial authoritative source",
+        "Nine core CRM tabs plus three private coordination registers: Change Queue, Event Log and Chat Registry",
         "Public Pages frontend must not access private Gmail or CRM directly",
         "No duplicate outreach or unsupported stage moves",
         "Use gated, audited backend writes only after read-only verification"
