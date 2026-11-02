@@ -2,10 +2,10 @@
 **Status:** Operational design and private shared registers implemented; autonomous cross-chat communication and live sync not yet deployed.
 **Reviewed:** 2 November 2026
 ## Purpose
-Coordinate all nine workstreams using the **seven original ChatGPT Project conversations** plus two specialist roles:
+Coordinate all nine workstreams using **nine newly created ChatGPT Project conversations**, including seven core departments (00–06) and two specialist roles (07–08):
 - **07 — Management Review:** cross-department reliability, opportunities, decisions, priority and risk triage.
 - **08 — HQ Engineering:** website design, usability, infrastructure, release QA, safe integration changes.
-These are proposed roles/chats. This file does **not** create actual ChatGPT conversations or claim that one chat can message another on its own.
+The owner confirmed creating all nine chats and pasting the role instructions on 2 November 2026. Their individual source reviews and actual conversation links have not been independently verified. Chats do not message each other automatically.
 ## Authoritative private coordination registers
 In the current master Google Sheets CRM:
 - [HQ Change Queue](https://docs.google.com/spreadsheets/d/1UE69BCAxQeQthQm7Ja2RyFgGHv-1BZCRxClACRTZl1c/edit#gid=2070431): work proposals, type, risk, approvals, status, GitHub commit and verification.
@@ -16,13 +16,13 @@ In the current master Google Sheets CRM:
 ## State machine
 `Proposed → Approved → Implementing → In review → Shipped` with optional `Deferred` or `Rejected`.
 No status is marked shipped until code commit, passing CI and deployed website verification are recorded. Website changes should attach a source, user-impact statement, rollback method and latest release commit. Every update must be checked after writing.
-## Apply the nine-chat structure
+## Nine-chat setup — owner confirmed
 
-1. For original chats 00–06, send the corresponding role update **inside the existing conversation**. Keep its history; do not create a new duplicate or delete prior work.
-2. For 07 Management Review and 08 HQ Engineering, create two specialist conversations in the same ChatGPT Project and send their starter instructions.
-3. For each chat, verify connected source access and one truthful next action, then update its row in the private Chat Registry. Copy the actual chat URL only into the private registry, not public GitHub.
-4. Chat 05 originally carried the title Products & Store. Its Vave Automations scope is **Portfolio & Assets only**, excluding unrelated product-store work. Do not invent a history rewrite.
-5. This website offers a browser-local setup checklist. Checking it is not equivalent to updating the authoritative registry.
+1. The owner created nine new conversations (00–08) inside the Vave Automations Project and pasted their respective operating instructions. **Do not recreate them or ask for instructions to be pasted again.**
+2. Each newly created chat must now read the assigned private CRM and provider evidence; the existing company records supply history that the new chat transcripts do not contain.
+3. Verify source review and write at least one evidence-backed next action, with owner, date and source, through the private CRM. Record actual chat URLs privately in the Company Chat Registry.
+4. All nine registry states are **Instructions sent** based on owner confirmation, not **Active & verified**. Access, handoffs, and chat links remain to be checked.
+5. Chat 05's Vave Automations remit is **Portfolio & Assets**, excluding unrelated product/store workflows.
 
 ## Coordination runbook
 1. **Source event**: a workstream inspects the authoritative provider and verifies a real event (message, proposal, accepted payment, product, workflow run or code change). No invented state.
