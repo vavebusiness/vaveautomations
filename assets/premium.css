@@ -264,3 +264,51 @@ a,button,select{touch-action:manipulation}
 @media(max-width:780px){.board-introduction{padding:25px 22px}.board-introduction h2{font-size:27px}.board-heading{align-items:stretch;flex-direction:column}.board-actions{width:100%}.board-actions .board-search{flex:1;min-width:130px}.board-stats{gap:9px}.board-stat{min-height:110px;gap:9px;padding:15px 11px}.board-stat strong{font-size:23px}.board-stat-icon{width:29px;height:29px;font-size:14px}.board-column{flex-basis:250px}.board-detail{left:0;right:0;top:auto;bottom:0;width:100%;height:min(78vh,750px);border-radius:25px 25px 0 0;padding:23px;animation:detailUp .42s var(--ease-out) both}.finance-hero{padding:25px}.finance-bars{width:105px}.finance-hero strong{font-size:48px}.activity-entry{grid-template-columns:19px 83px 1fr;gap:9px}.activity-date{font-size:9px}.board-bottom span:last-child{display:none}}@keyframes detailUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:480px){.board-introduction:after{display:none}.board-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.board-stat-icon{display:none}.board-tab{font-size:11px;padding:12px 9px}.board-tab small{display:none}.board-column{flex-basis:228px}.finance-bars{display:none}.board-introduction>p{font-size:12px}.board-pill{font-size:9px}.page-content{padding-left:14px;padding-right:14px}.hero-panel{padding:25px}.hero-panel h2{font-size:28px}.metric{padding:17px 15px}.metric strong{font-size:27px}}
 @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}.motion-ready .motion-reveal{opacity:1!important;filter:none!important;transform:none!important}.board-detail{transform:none!important}}
+
+
+/* Management coordination — quiet, high-density executive layouts */
+.management-hero{background:radial-gradient(ellipse at 89% 0%,rgba(205,129,85,.17),transparent 55%),linear-gradient(125deg,#1a2626,#1d2326 65%,#242321);border:1px solid #455152;border-radius:26px;padding:37px 39px;position:relative;overflow:hidden;box-shadow:0 15px 45px rgba(0,0,0,.22)}
+.management-hero:after{content:"";position:absolute;right:-80px;top:-155px;width:360px;height:360px;border:1px solid rgba(240,170,122,.12);border-radius:50%;box-shadow:0 0 0 50px rgba(240,170,122,.024),0 0 0 107px rgba(240,170,122,.009);pointer-events:none}
+.management-hero h2{font-size:clamp(26px,3.8vw,46px);letter-spacing:-1.9px;line-height:1.15;margin:0 0 17px;max-width:780px}
+.management-hero em{font-style:normal;background:linear-gradient(110deg,#f7bf97,#d2a78e);background-clip:text;-webkit-background-clip:text;color:transparent}
+.management-hero p{max-width:800px;font-size:13px;color:#b7c2c1;line-height:1.9}
+.management-hero-actions{display:flex;gap:12px;margin-top:27px}
+.management-hero-actions .text-link{padding:10px 14px;border-radius:11px;border:1px solid #6a5f55;color:#e7b799;font-size:11px;background:rgba(0,0,0,.12);transition:all .25s}
+.management-hero-actions .text-link:hover{background:#44392f;border-color:#b08a6c}
+.coordination-flow{background:linear-gradient(130deg,#1b2225,#181c20);border-radius:23px;border:1px solid #3b4849;padding:28px;box-shadow:0 12px 35px rgba(0,0,0,.14)}
+.coordination-label{display:block;color:#d3a17d;font-size:10px;letter-spacing:1.5px;font-weight:800;margin-bottom:15px}
+.coordination-nodes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.coordination-nodes span{background:#252d30;border:1px solid #445052;border-radius:10px;padding:12px;color:#c8d0cf;font-size:11px;line-height:1.6}
+.coordination-arrow{text-align:center;color:#a8907c;font-size:11px;padding:17px 0}
+.coordination-core{border:1px solid #a87556;background:radial-gradient(ellipse at 100% 0%,rgba(160,91,62,.14),transparent 70%),linear-gradient(135deg,#342a27,#23282a);border-radius:16px;padding:25px 28px}
+.coordination-core .coordination-label{margin-bottom:9px}
+.coordination-core h3{font-size:18px;letter-spacing:-.6px;margin:0 0 7px}
+.coordination-core p{font-size:11px;color:#b6b8b7;margin:0}
+.coordination-dest{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}
+.coordination-dest>div{border-radius:13px;border:1px solid #405052;background:#20282b;padding:17px}
+.coordination-dest strong{font-size:12px;color:#f0e7e1}
+.coordination-dest p{color:#95a4a6;font-size:10px;margin:5px 0 0}
+.management-permission-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.permission-card{min-height:245px;position:relative;overflow:hidden;background:#1b2425;border:1px solid #476056;border-radius:21px;padding:28px;box-shadow:0 11px 30px rgba(0,0,0,.1);transition:transform .4s var(--ease-out),border-color .25s}
+.permission-card:hover{transform:translateY(-3px)}
+.permission-card.approval{background:#2b2422;border-color:#805849}
+.permission-icon{position:absolute;right:25px;top:22px;width:31px;height:31px;border-radius:11px;border:1px solid #60846f;color:#a4d8ae;display:flex;justify-content:center;align-items:center;font-size:18px}
+.permission-card.approval .permission-icon{border-color:#bb775e;color:#f0a285}
+.permission-card .eyebrow{color:#aec4ae}
+.permission-card.approval .eyebrow{color:#e8ae89}
+.permission-card h3{font-size:17px;letter-spacing:-.65px;margin:0 0 11px}
+.permission-card p{font-size:11px;color:#b5c2c0;line-height:1.85;max-width:520px;margin:0}
+.permission-tag{display:inline-block;margin-top:22px;border:1px solid #65826e;padding:7px 10px;color:#c2e3ce;border-radius:8px;font-size:10px;font-weight:800}
+.permission-card.approval .permission-tag{border-color:#876350;color:#edbca3}
+.management-steps{display:grid;grid-template-columns:repeat(2,1fr);gap:11px}
+.management-step{background:#1c2326;border:1px solid #384549;border-radius:15px;display:flex;gap:18px;padding:20px;transition:transform .4s var(--ease-out),border-color .3s}
+.management-step:hover{transform:translateY(-2px);border-color:#8a6956}
+.management-step>span{flex:none;font:800 20px Manrope;color:#b88769;line-height:1}
+.management-step strong{font-size:12px;color:#ece8e3}
+.management-step p{font-size:11px;color:#a5b3b5;line-height:1.8;margin:7px 0 0}
+@media(max-width:900px){.coordination-nodes{grid-template-columns:repeat(2,1fr)}.management-permission-grid{grid-template-columns:1fr}.management-steps{grid-template-columns:1fr}}
+@media(max-width:650px){.management-hero{padding:26px 22px}.management-hero h2{font-size:27px}.management-hero-actions{flex-wrap:wrap}.coordination-flow{padding:18px}.coordination-nodes{grid-template-columns:1fr 1fr}.coordination-nodes span{font-size:10px}.coordination-dest{grid-template-columns:1fr}.permission-card{padding:22px}.management-step{padding:17px}}
+.scroll-progress{position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,#c27b56,#f4b182);transform-origin:0 50%;transform:scaleX(0);pointer-events:none}
+.action-button,.outline-button,.nav-link,.board-tab,.subtle-button{position:relative;overflow:hidden}
+.motion-ripple{position:absolute;width:10px;height:10px;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.27);transform:translate(-50%,-50%) scale(0);animation:microRipple .62s var(--ease-out) forwards;z-index:4}
+@keyframes microRipple{0%{opacity:.65;transform:translate(-50%,-50%) scale(0)}100%{opacity:0;transform:translate(-50%,-50%) scale(17)}}
