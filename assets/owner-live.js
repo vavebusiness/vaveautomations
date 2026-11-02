@@ -28,6 +28,8 @@ function hasSheets(){return !!state.sheetsToken&&Date.now()<state.sheetsUntil-30
 function hasGmail(){return !!state.gmailToken&&Date.now()<state.gmailUntil-30000}
 function readClientId(){try{return localStorage.getItem("vave-google-oauth-client-id")||""}catch(e){return""}}
 state.clientId=readClientId();
+try{const rememberedView=sessionStorage.getItem("vave-google-last-dataset");if(sheets.some(x=>x.name===rememberedView))state.selected=rememberedView}catch(e){}
+
 const GRANT_KEY={sheets:"vave-google-sheets-granted",gmail:"vave-google-gmail-granted"};
 function hadGrant(which){try{return localStorage.getItem(GRANT_KEY[which])==="1"}catch(e){return false}}
 function rememberGrant(which){try{localStorage.setItem(GRANT_KEY[which],"1")}catch(e){}}
@@ -136,7 +138,7 @@ const client=window.google.accounts.oauth2.initTokenClient({
 }
 function updateBoard(){const board=document.getElementById("live-board");if(board){board.innerHTML=renderBoard();attachBoard()}}
 function attachBoard(){
-document.querySelectorAll("#owner-live-root [data-dataset]").forEach(b=>b.addEventListener("click",()=>{state.selected=b.dataset.dataset;state.filter="";updateBoard()}));
+document.querySelectorAll("#owner-live-root [data-dataset]").forEach(b=>b.addEventListener("click",()=>{state.selected=b.dataset.dataset;state.filter="";try{if(sheets.some(x=>x.name===state.selected))sessionStorage.setItem("vave-google-last-dataset",state.selected)}catch(e){}updateBoard()}));
 document.getElementById("owner-filter")?.addEventListener("input",e=>{const value=e.target.value,pos=e.target.selectionStart;state.filter=value;updateBoard();const search=document.getElementById("owner-filter");search?.focus();search?.setSelectionRange(pos,pos)});
 document.getElementById("owner-refresh")?.addEventListener("click",()=>state.selected==="Gmail Inbox"?refreshGmail():refreshSheets());
 document.getElementById("owner-disconnect")?.addEventListener("click",()=>{
