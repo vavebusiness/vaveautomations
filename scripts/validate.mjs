@@ -4,7 +4,7 @@ import {join,dirname,resolve} from "node:path";
 const root=resolve(import.meta.dirname,"..");
 const read=p=>readFileSync(join(root,p),"utf8");
 const departmentIds=["command","acquisition","sales","development","partnerships","portfolio","operations"];
-const systemIds=["pipeline","projects","tasks","workflows","databases","reports","integrations","roadmap"];
+const systemIds=["pipeline","projects","management","tasks","workflows","databases","reports","integrations","roadmap"];
 const htmls=["index.html",...departmentIds.filter(x=>x!=="command").map(x=>"departments/"+x+".html"),...systemIds.map(x=>"systems/"+x+".html")];
 const text=read("assets/hq-data.js").replace(/^window\.HQ_DATA = /,"").trim().replace(/;\s*$/,"");
 const model=JSON.parse(text);
@@ -39,4 +39,5 @@ for(const restricted of ["rooxemillions@", "Gumroad", "AIza", "sk-proj-", "ghp_"
 assert.ok(!model.pipeline.some(x=>/[\w.-]+@[\w.-]+\.[A-Za-z]{2,}/.test(JSON.stringify(x))),"Pipeline has private emails");
 assert.ok(read("systems/projects.html").includes("assets/project-board.js"),"Project board missing UI module");
 assert.ok(read("assets/project-board.js").includes("LOCAL PREVIEW"),"Project board needs clear non-synced label");
-console.log("PASS: 15 site routes, 7 department playbooks, 9 source tabs, 3 company workflows, premium UI and sanitized snapshot");
+assert.ok(read("systems/management.html").includes("assets/motion.js"),"Management hub missing motion");
+console.log("PASS: 16 site routes, 7 department playbooks, 9 source tabs, 3 company workflows, premium UI and sanitized snapshot");
