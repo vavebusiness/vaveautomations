@@ -14,7 +14,7 @@ const stages=[
 const snapshot=Array.isArray(D.pipeline)?D.pipeline.map(x=>({...x})).filter(x=>x.stage!=="Lost"):[];
 let opportunities=snapshot.map(x=>({...x,stage:x.stage==="Nurture"?"Research":x.stage}));
 let moved=new Set();
-let activeTab="pipeline", selected=opportunities.find(x=>x.stage==="Replied")?.id||null;
+let activeTab="pipeline", selected=null;
 let q="", menuExpanded=false;
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const $=id=>document.getElementById(id);
