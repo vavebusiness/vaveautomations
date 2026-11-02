@@ -312,3 +312,12 @@ a,button,select{touch-action:manipulation}
 .action-button,.outline-button,.nav-link,.board-tab,.subtle-button{position:relative;overflow:hidden}
 .motion-ripple{position:absolute;width:10px;height:10px;border-radius:50%;pointer-events:none;background:rgba(255,255,255,.27);transform:translate(-50%,-50%) scale(0);animation:microRipple .62s var(--ease-out) forwards;z-index:4}
 @keyframes microRipple{0%{opacity:.65;transform:translate(-50%,-50%) scale(0)}100%{opacity:0;transform:translate(-50%,-50%) scale(17)}}
+
+/* Optional minimal navigation for decision-focused sessions */
+.focus-button{font:700 11px "Manrope","DM Sans",sans-serif;border:1px solid #5d5147;border-radius:11px;background:#242422;color:#e6b38c;padding:9px 12px;cursor:pointer;white-space:nowrap;transition:background .27s,transform .27s}
+.focus-button:hover,.focus-button[aria-pressed="true"]{background:#40302a;color:#ffd0aa;border-color:#976e55}
+.focus-button:active{transform:scale(.96)}
+.focus-mode #sidebar nav .nav-group:not(:first-child){display:none}
+.focus-mode #sidebar .workspace-indicator{border-color:#866348;background:#262622}
+.focus-mode #sidebar nav:after{content:"Focused workspace. Use Search HQ or All sections to open every department.";display:block;color:#8d9697;border:1px dashed #444b4d;border-radius:12px;font-size:10px;line-height:1.8;margin:24px 7px;padding:15px}
+@media(max-width:520px){.focus-button{font-size:10px;padding:8px 9px}}
