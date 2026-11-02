@@ -4,7 +4,7 @@ import {join,dirname,resolve} from "node:path";
 const root=resolve(import.meta.dirname,"..");
 const read=p=>readFileSync(join(root,p),"utf8");
 const departmentIds=["command","acquisition","sales","development","partnerships","portfolio","operations"];
-const systemIds=["pipeline","tasks","workflows","databases","reports","integrations","roadmap"];
+const systemIds=["pipeline","projects","tasks","workflows","databases","reports","integrations","roadmap"];
 const htmls=["index.html",...departmentIds.filter(x=>x!=="command").map(x=>"departments/"+x+".html"),...systemIds.map(x=>"systems/"+x+".html")];
 const text=read("assets/hq-data.js").replace(/^window\.HQ_DATA = /,"").trim().replace(/;\s*$/,"");
 const model=JSON.parse(text);
@@ -26,15 +26,17 @@ for(const key of metricKeys)assert.ok(Object.hasOwn(snapshot.metrics,key),"Missi
 for(const page of htmls){
  assert.ok(existsSync(join(root,page)),"Missing page "+page);
  const h=read(page);
- for(const asset of ["assets/hq-data.js","assets/app.js","assets/style.css"]){
+ for(const asset of ["assets/hq-data.js","assets/app.js","assets/style.css","assets/premium.css","assets/motion.js"]){
  const rel=page==="index.html"?asset:"../"+asset;
  assert.ok(h.includes(rel),"Page "+page+" missing "+rel);
  }
  assert.ok(h.includes('id="app"'),"App mount missing in "+page);
 }
-const allPublic=[...htmls,"assets/app.js","assets/hq-data.js","assets/style.css","data/overview.json","README.md"].map(read).join("\n");
+const allPublic=[...htmls,"assets/app.js","assets/hq-data.js","assets/style.css","assets/premium.css","assets/motion.js","assets/project-board.js","data/overview.json","README.md"].map(read).join("\n");
 for(const restricted of ["rooxemillions@", "Gumroad", "AIza", "sk-proj-", "ghp_", "Bearer eyJ"]){
  assert.equal(allPublic.includes(restricted),false,"Forbidden public token/project reference: "+restricted);
 }
 assert.ok(!model.pipeline.some(x=>/[\w.-]+@[\w.-]+\.[A-Za-z]{2,}/.test(JSON.stringify(x))),"Pipeline has private emails");
-console.log("PASS: 14 site routes, 7 department playbooks, 9 source tabs, 3 company workflows, sanitized snapshot");
+assert.ok(read("systems/projects.html").includes("assets/project-board.js"),"Project board missing UI module");
+assert.ok(read("assets/project-board.js").includes("LOCAL PREVIEW"),"Project board needs clear non-synced label");
+console.log("PASS: 15 site routes, 7 department playbooks, 9 source tabs, 3 company workflows, premium UI and sanitized snapshot");
