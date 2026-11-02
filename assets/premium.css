@@ -408,3 +408,16 @@ a,button,select{touch-action:manipulation}
 .chatlaunch-copyarea{display:block;width:100%;min-height:240px;background:#252b2e;border:1px solid #4e5d60;color:#eee;padding:14px;border-radius:12px;margin-top:10px;font-size:11px}
 @media(max-width:1000px){.chatlaunch-card-grid,.chatlaunch-existing-grid{grid-template-columns:1fr}.chatlaunch-steps{grid-template-columns:1fr}}
 @media(max-width:650px){.chatlaunch-intro{padding:25px 21px}.chatlaunch-card{padding:22px}.chatlaunch-how{padding:21px}.chatlaunch-existing-grid>div{flex-wrap:wrap}.chatlaunch-existing-grid small{width:100%;margin-left:27px;text-align:left}}
+
+
+/* Read-only Google session restoration — no stored access token or CRM rows */
+.owner-restore{display:flex;align-items:center;gap:17px;padding:24px 25px;margin:4px 0 22px;border-radius:22px;border:1px solid rgba(232,161,107,.38);background:radial-gradient(ellipse 48% 130% at 100% 0%,rgba(226,146,85,.17),transparent),linear-gradient(110deg,#2e2925,#1d2728);box-shadow:0 15px 40px rgba(0,0,0,.2),inset 0 1px 0 rgba(255,255,255,.055)}
+.owner-restore-mark{flex:none;display:flex;align-items:center;justify-content:center;width:49px;height:49px;border-radius:16px;background:#48352c;border:1px solid #9f7355;color:#ffd0ae;font-size:26px;line-height:1}
+.owner-restore-info{min-width:0;flex:1}
+.owner-restore-info h3{font-size:19px;letter-spacing:-.7px;margin:0 0 7px}
+.owner-restore-info .eyebrow{margin-bottom:6px;color:#eab188}
+.owner-restore-info p{font-size:11px;color:#bdc4c2;line-height:1.75;margin:0;max-width:670px}
+.owner-restore .action-button{flex:none;white-space:nowrap}
+.owner-restore .action-button:disabled{opacity:.5;cursor:progress;transform:none}
+@media(max-width:830px){.owner-restore{flex-wrap:wrap;padding:23px}.owner-restore .action-button{width:100%}}
+@media(max-width:460px){.owner-restore-mark{width:39px;height:39px;border-radius:12px;font-size:22px}.owner-restore-info{flex:1 0 calc(100% - 62px)}.owner-restore-info h3{font-size:17px}}
