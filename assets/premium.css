@@ -319,3 +319,61 @@ a,button,select{touch-action:manipulation}
 .focus-mode #sidebar .workspace-indicator{border-color:#866348;background:#262622}
 .focus-mode #sidebar nav:after{content:"Focused workspace. Use Search HQ or All sections to open every department.";display:block;color:#8d9697;border:1px dashed #444b4d;border-radius:12px;font-size:10px;line-height:1.8;margin:24px 7px;padding:15px}
 @media(max-width:520px){.focus-button{font-size:10px;padding:8px 9px}}
+
+
+/* Private in-browser Google Workspace reader */
+.owner-privacy{display:flex;align-items:flex-start;gap:16px;padding:20px 23px;border:1px solid #4c6359;background:linear-gradient(120deg,#1d2b29,#1a2124);border-radius:19px;margin-bottom:19px}
+.owner-lock{width:41px;height:41px;border:1px solid #6c917e;border-radius:14px;background:#2a4238;color:#b3e9c5;display:flex;align-items:center;justify-content:center;font-size:20px;flex:none}
+.owner-privacy strong{display:block;font-size:13px;margin:0 0 5px}.owner-privacy p{font-size:11px;color:#baccc5;line-height:1.8;max-width:870px;margin:0}
+.owner-setup,.owner-connection{background:linear-gradient(135deg,#1e2427,#191e21);border:1px solid #3b484a;border-radius:21px;padding:25px;margin-bottom:15px}
+.owner-setup{display:flex;gap:18px}
+.owner-step-number{width:35px;height:35px;flex:none;border-radius:12px;background:#342c2b;border:1px solid #70503c;color:#efad86;display:flex;align-items:center;justify-content:center;font:800 13px Manrope}
+.owner-step{flex:1;min-width:0}
+.owner-step h3,.owner-connection h3{font-size:16px;letter-spacing:-.45px;margin:0 0 8px}
+.owner-step p,.owner-connection p{font-size:12px;color:#a9b7ba;line-height:1.8;margin:0 0 15px}
+.owner-step code{border-radius:6px;background:#303638;color:#f2c3a2;padding:3px 6px;white-space:normal;overflow-wrap:anywhere}
+.owner-input-row{display:flex;gap:10px;margin:17px 0 10px}
+.owner-input-row input{flex:1;min-width:0;background:#222b2e;border:1px solid #536063;border-radius:11px;color:#f6f4f0;padding:12px;font-size:12px}
+.owner-input-row .action-button{white-space:nowrap}
+.owner-step small,.owner-connection small{color:#9babae;font-size:10px;line-height:1.8;display:block}
+.owner-step small strong{color:#f0ba9c}
+.owner-help{display:flex;gap:11px 22px;flex-wrap:wrap;margin:18px 0 0!important}
+.owner-help a{color:#e4a57f;font-size:11px;font-weight:700}
+.owner-connection-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.owner-connection{min-height:244px;display:flex;flex-direction:column;gap:13px}
+.owner-connection p{flex:1;margin:0}
+.owner-connection-head{display:flex;align-items:center;gap:14px}
+.owner-connection-head h3{margin:0 0 8px}
+.owner-pill{display:inline-flex;border-radius:9px;font-size:10px;border:1px solid #4c5455;background:#292f31;color:#a6b5b5;padding:4px 7px}
+.owner-pill.connected{background:#233a30;color:#b4e2c7;border-color:#537660}
+.owner-connection button{align-self:flex-start}
+.owner-connection button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.owner-notice{background:#262e30;border:1px solid #485658;color:#bfced0;border-radius:13px;padding:14px 17px;font-size:11px;margin:12px 0 20px;line-height:1.7}
+.owner-notice[data-type="success"]{background:#24372f;border-color:#477159;color:#b8e3c7}
+.owner-notice[data-type="error"]{background:#3a2728;border-color:#8b5250;color:#f1b2ac}
+.owner-notice[data-type="warn"]{background:#3c3128;border-color:#866449;color:#e8c3a4}
+.owner-board{border-radius:21px;background:#1b2124;border:1px solid #3d4749;min-height:270px;overflow:hidden}
+.owner-empty{text-align:center;padding:50px 20px}
+.owner-empty-icon{height:57px;width:57px;border:1px solid #515e62;background:#2c3437;border-radius:18px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;font-size:25px;color:#edb48d}
+.owner-empty h3{font-size:15px;margin:0 0 8px}
+.owner-empty p{font-size:12px;color:#9ca9ab;max-width:530px;margin:auto;line-height:1.85}
+.owner-data-title{display:flex;justify-content:space-between;gap:16px;align-items:center;padding:23px}
+.owner-data-title h3{font-size:17px;margin:0 0 5px}.owner-data-title small{color:#9aa6a7;font-size:10px}
+.owner-data-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.owner-data-actions input{min-width:155px;max-width:220px;background:#263034;border:1px solid #46585a;color:#f4f1ed;border-radius:10px;padding:10px;font-size:11px}
+.owner-data-actions button{padding:9px 11px;font-size:10px}
+.owner-tabs{display:flex;gap:5px;overflow-x:auto;scrollbar-width:thin;padding:0 20px 12px;border-bottom:1px solid #424b4e}
+.owner-tab{background:transparent;border:1px solid #4d5556;color:#bdc6c8;white-space:nowrap;border-radius:9px;padding:8px 12px;font-size:10px;transition:background .2s,color .2s,border-color .2s}
+.owner-tab:hover{background:#313b3c;color:white}
+.owner-tab.selected{color:#ffd0b3;background:#3c312a;border-color:#ac7b5d}
+.owner-table-wrap{overflow:auto;max-height:min(58vh,640px);scrollbar-color:#586264 transparent}
+.owner-table{border-collapse:collapse;min-width:700px;width:100%;font-size:11px}
+.owner-table thead{position:sticky;top:0;z-index:1;background:#283035}
+.owner-table th{font-size:9px;letter-spacing:.7px;text-align:left;color:#d7b09a;min-width:140px;padding:13px 15px;border-bottom:1px solid #485354}
+.owner-table td{max-width:440px;min-width:120px;word-break:break-word;padding:12px 15px;vertical-align:top;color:#b6c0c2;line-height:1.7;border-bottom:1px solid #323d40}
+.owner-table tr:hover td{background:#273136}
+.owner-count{margin:0;padding:15px 20px;color:#8da0a2;font-size:10px}
+.owner-security{margin-top:17px;background:#1c2124;border:1px solid #3c484a;border-radius:19px;padding:21px}
+.owner-security h3{font-size:13px;margin:0 0 8px}.owner-security p{font-size:11px;color:#a9b8b9;line-height:1.8;margin:0}
+@media(max-width:900px){.owner-connection-grid{grid-template-columns:1fr}.owner-data-title{align-items:flex-start;flex-direction:column}}
+@media(max-width:600px){.owner-setup{flex-direction:column}.owner-input-row{flex-direction:column}.owner-connection{padding:20px}.owner-data-title{padding:18px}.owner-privacy{padding:18px}.owner-connection-head{align-items:flex-start}.owner-connection-head .owner-step-number{display:none}}
