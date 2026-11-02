@@ -10,7 +10,7 @@ const SCOPE_GMAIL="https://www.googleapis.com/auth/gmail.readonly";
 const SHEET_ID="1UE69BCAxQeQthQm7Ja2RyFgGHv-1BZCRxClACRTZl1c";
 const MAX_DISPLAY=65;
 const sheets=[
- {name:"Dashboard",range:"Dashboard!A1:B32",header:3},
+ {name:"Dashboard",range:"Dashboard!A1:B32",header:2},
  {name:"Opportunities",range:"Opportunities!A1:G310",header:0},
  {name:"Master Checklist",range:"'Master Checklist'!A3:H100",header:0},
  {name:"HQ Change Queue",range:"'HQ Change Queue'!A1:P150",header:0},
