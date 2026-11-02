@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 const base="https://vavebusiness.github.io/vaveautomations/";
-const routes=["","departments/acquisition.html","departments/sales.html","departments/development.html","departments/partnerships.html","departments/portfolio.html","departments/operations.html","systems/pipeline.html","systems/projects.html","systems/management.html","systems/tasks.html","systems/workflows.html","systems/databases.html","systems/reports.html","systems/integrations.html","systems/roadmap.html"];
-const assets=["assets/app.js","assets/hq-data.js","assets/premium.css","assets/motion.js","assets/project-board.js","data/overview.json"];
+const routes=["","departments/acquisition.html","departments/sales.html","departments/development.html","departments/partnerships.html","departments/portfolio.html","departments/operations.html","systems/pipeline.html","systems/projects.html","systems/management.html","systems/chat-launchpad.html","systems/owner-data.html","systems/tasks.html","systems/workflows.html","systems/databases.html","systems/reports.html","systems/integrations.html","systems/roadmap.html"];
+const assets=["assets/app.js","assets/hq-data.js","assets/premium.css","assets/motion.js","assets/project-board.js","assets/owner-live.js","assets/chat-launch.js","data/overview.json"];
 const errors=[];
 for(const path of [...routes,...assets]){
  try{
@@ -12,6 +12,8 @@ for(const path of [...routes,...assets]){
    if(!body.includes('id="app"'))errors.push(path+": app mount missing");
   }
   if(path==="systems/projects.html"&&!body.includes("project-board.js"))errors.push("Project board module not linked");
+  if(path==="systems/owner-data.html"&&!body.includes("owner-live.js"))errors.push("Owner OAuth route not published");
+  if(path==="systems/chat-launchpad.html"&&!body.includes("chat-launch.js"))errors.push("Chat starter route not published");
   if(path==="systems/management.html"&&!body.includes("Management & Improvements"))errors.push("Management route not published");
  }catch(e){errors.push(path+": "+String(e).slice(0,200))}
 }
