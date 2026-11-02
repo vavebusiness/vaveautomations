@@ -6,19 +6,21 @@
 
 | Layer | Current state | Allowed information |
 |---|---|---|
-| GitHub repository / Pages | Public, source visible | Department procedures, sanitized aggregate counts, public-safe workflow descriptions, links to protected sources |
+| GitHub repository / Pages | Public, source visible | Department procedures, sanitized counts, safe workflow summaries, links to protected sources, and a user-authorized Google read-only data viewer |
 | Google Sheets master CRM | Private, authoritative | Prospects, contacts, outreach logs, suppression ledger, stages, tasks |
-| Gmail / Make | Connected to ChatGPT, not the website | Thread content and connected workflow configuration, under existing permissions |
+| Gmail / Make | Connected to ChatGPT; Gmail browser reader implemented but not authorized | Gmail metadata may appear after explicit user OAuth consent; Make API credentials still require a server |
 | Authenticated backend | Not yet configured | Server-side tokens, private normalized records, scoped sync, secure writes and audit logs |
 
-### Why static GitHub Pages cannot securely connect directly
+### Two distinct secure access patterns
 
-Any token included in the browser's JavaScript, a bundled JSON file or public GitHub source can be read by anyone. Do not embed a Google OAuth refresh token, Gmail token, Make API key, webhook URL, service-account key or personally identifying CRM rows in the public source.
+**User-present read-only Google access (implemented, pending OAuth setup):** The Owner Live Data page uses Google Identity Services to request temporary read-only grants for Sheets and, optionally, Gmail. The Google Client ID is public and may be saved locally. Access tokens are held in browser memory and sent only to Google APIs. This enables private source viewing while the authorized user is present; no live backend or new hosting service is needed. Google OAuth configuration, permission and any required verification remain outstanding. See [setup guide](google-workspace-browser-setup.md).
+
+**Unattended background processing or Make access (not implemented):** Any API token, refresh token, Google service-account credential, Gmail private key, Make API key, webhook secret or sensitive customer record embedded in JavaScript, static JSON or the public repository can be copied by anyone. For continuous synchronization, audited writes and Make status polling, use an authenticated backend with server-side secrets. Never put secrets in Pages assets.
 
 ## Recommended architecture
 
-1. **Frontend:** keep versioned static frontend in GitHub; when a protected app provider is chosen, redirect private routes to authenticated hosting.
-2. **Identity:** secure login with MFA where available, allowlist membership, session expiry, CSRF protections and appropriate role-based access.
+1. **Frontend:** keep GitHub Pages hosting. Show sanitized public data universally and authorized private Google data inside a short-lived, user-controlled browser session.
+2. **Identity:** currently defer private OAuth permission to Google's consent screen and resource ACL. Any future unattended private API requires server-side identity, MFA, session controls and role-based access.
 3. **Backend API:** server-only token exchange, input validation and output filtering. No side effects in GET endpoints.
 4. **Private data:** relational storage with entities organizations, contacts, opportunities, communications, suppressions, tasks, projects, integrations, audit_events.
 5. **Source sync:** per-source incremental cursors, retries and reconciliation to Google Sheets/Gmail/Make.
@@ -58,4 +60,4 @@ For every source row: `source_system`, `source_id`, `source_updated_at`, `sync_o
 
 ## No-cost first phase
 
-Continue maintaining public-safe snapshot exports manually from verified CRM; provide source links and visible freshness. This is not live sync. Do not run Make or spend Gemini credits solely to refresh the public site.
+Keep GitHub Pages as hosting. Use manual sanitized snapshot exports for public summaries. The browser-only Google OAuth reader is implemented and can refresh protected source ranges while an authorized user has the page open, once Google OAuth setup is completed. Google Cloud Client ID is not a secret; never paste client secrets. Private Make integration and unattended synchronized updates require a protected backend. Do not run Make or spend Gemini credits solely to refresh the public site.
