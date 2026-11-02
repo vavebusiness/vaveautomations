@@ -3,14 +3,14 @@
   "snapshotDate": "2026-11-02",
   "verifiedAt": "2026-11-02",
   "mode": "manual-read-only-snapshot",
-  "note": "CRM source checked on 2 Nov 2026. These are CRM-tracked historical totals, not a live Google Sheets feed.",
+  "note": "CRM Dashboard manually verified on 2 Nov 2026. Totals include research-only rows and are not a live Google Sheets feed.",
   "metrics": {
     "acceptedMessages": 183,
     "distinctRecipients": 179,
     "awaitingReply": 158,
     "positiveConversations": 2,
-    "opportunityRecords": 250,
-    "researchOnly": 174,
+    "opportunityRecords": 252,
+    "researchOnly": 176,
     "bouncedAddresses": 8,
     "verifiedPayingClients": 0,
     "proposalsSent": 0
