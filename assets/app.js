@@ -13,14 +13,14 @@ let snapshot=null;
 const dlist=D.departments||[];
 const dataTasks=Array.isArray(D.tasks)?D.tasks:[];
 const navGroups=[
- {title:"Company",links:[["command","00","Command Center",root+"index.html"],["pipeline","","Opportunity pipeline",root+"systems/pipeline.html"],["projects","","Client & project board",root+"systems/projects.html"],["tasks","","Action board",root+"systems/tasks.html"]]},
+ {title:"Company",links:[["command","00","Command Center",root+"index.html"],["pipeline","","Opportunity pipeline",root+"systems/pipeline.html"],["projects","","Client & project board",root+"systems/projects.html"],["management","","Management & improvements",root+"systems/management.html"],["tasks","","Action board",root+"systems/tasks.html"]]},
  {title:"Departments",links:dlist.filter(x=>x.id!=="command").map(x=>[x.id,x.number,x.name,root+"departments/"+x.id+".html"])},
  {title:"Systems & intelligence",links:[["workflows","","Workflow registry",root+"systems/workflows.html"],["databases","","Data sources",root+"systems/databases.html"],["reports","","Analytics & reports",root+"systems/reports.html"],["integrations","","Integration center",root+"systems/integrations.html"],["roadmap","","Operating roadmap",root+"systems/roadmap.html"]]}
 ];
 const selected=currentSystem||currentDepartment;
 const department=dlist.find(x=>x.id===currentDepartment)||dlist[0];
 const sourceCount=Object.keys(D.links||{}).length;
-const ICONS={command:"◈",acquisition:"◎",sales:"↗",development:"⌘",partnerships:"◇",portfolio:"▣",operations:"⚙",pipeline:"⥅",projects:"▦",tasks:"☑",workflows:"⟲",databases:"▤",reports:"▥",integrations:"⊞",roadmap:"◉"};
+const ICONS={command:"◈",acquisition:"◎",sales:"↗",development:"⌘",partnerships:"◇",portfolio:"▣",operations:"⚙",pipeline:"⥅",projects:"▦",management:"✦",tasks:"☑",workflows:"⟲",databases:"▤",reports:"▥",integrations:"⊞",roadmap:"◉"};
 let filterTasks={q:"",status:"all",priority:"all",department:"all"};
 let filterPipeline={q:"",stage:"all",type:"all"};
 let filterWorkflows={q:"",status:"all"};
@@ -40,7 +40,7 @@ function renderShell(pageHtml){
 const activeSection=selected;
 return '<div class="app-shell"><aside class="sidebar" id="sidebar"><a class="brand" href="'+root+'index.html"><span class="brand-symbol">V<span>∕</span>A</span><span><strong>VAVE AUTOMATIONS</strong><small>OPERATIONS HEADQUARTERS</small></span></a><div class="workspace-indicator"><span class="live-dot"></span><span>OPERATIONS WORKSPACE</span>'+chip("Public overview","neutral")+'</div><nav aria-label="Main navigation">'+navGroups.map(g=>'<div class="nav-group"><div class="nav-title">'+g.title+'</div>'+g.links.map(x=>'<a class="nav-link '+(activeSection===x[0]?"active":"")+'" href="'+x[3]+'"><span class="nav-symbol">'+(ICONS[x[0]]||"◦")+'</span><span class="nav-text">'+(x[1]?'<small>'+x[1]+'</small> ':"")+escapeHTML(x[2])+'</span></a>').join("")+'</div>').join("")+'</nav><div class="sidebar-footer"><div>Source of truth</div>'+external("Master CRM",official)+'<div class="foot-note">Public-safe read-only workspace. No client secrets.</div></div></aside><div class="main-column"><header class="topbar"><div class="breadcrumbs"><button class="menu-btn" id="menu-toggle" aria-label="Open departments">☰</button><span>VA</span><span class="chevron">/</span><strong>'+escapeHTML(isDept?department.name:systemTitle(currentSystem))+'</strong></div><div class="top-actions"><button type="button" class="subtle-button" id="search-toggle" aria-label="Search headquarters">⌕ <span>Search HQ</span><kbd>⌘ K</kbd></button><span class="top-divider"></span>'+chip("Read-only data","neutral")+'</div></header><main class="page-content" id="main-content">'+pageHtml+'</main><footer class="bottom-footer"><span>VAVE AUTOMATIONS · OPERATIONS HQ</span><span>Public-safe company information · Master CRM remains authoritative</span></footer></div></div><div id="search-layer" class="search-layer" hidden><div class="search-panel" role="dialog" aria-modal="true" aria-label="Search headquarters"><div class="search-top"><input id="global-query" type="search" placeholder="Search departments, workflows, tasks, processes..." autocomplete="off" aria-label="Search"><button type="button" id="search-close" class="icon-button">✕</button></div><div id="global-results" class="search-results"></div></div></div>';
 }
-function systemTitle(id){return({pipeline:"Opportunity Pipeline",projects:"Client & Project Board",tasks:"Action Board",workflows:"Workflow Registry",databases:"Data Sources",reports:"Analytics & Reports",integrations:"Integration Center",roadmap:"Operating Roadmap"})[id]||"Headquarters"}
+function systemTitle(id){return({pipeline:"Opportunity Pipeline",projects:"Client & Project Board",management:"Management & Improvements",tasks:"Action Board",workflows:"Workflow Registry",databases:"Data Sources",reports:"Analytics & Reports",integrations:"Integration Center",roadmap:"Operating Roadmap"})[id]||"Headquarters"}
 function pageHeader(kicker,title,subtitle,actions=""){return '<div class="page-header"><div class="eyebrow">'+escapeHTML(kicker)+'</div><div class="title-row"><div><h1>'+escapeHTML(title)+'</h1><p class="page-subtitle">'+escapeHTML(subtitle)+'</p></div><div class="title-actions">'+actions+'</div></div></div>'}
 function stamp(){return '<div class="freshness"><span class="status-dot amber"></span><span>Manual CRM snapshot · source through '+escapeHTML(D.sourceAsOf||"2026-10-31")+' · reviewed '+escapeHTML(D.lastReviewed||"2026-11-02")+'</span></div>'}
 function deptTabs(d,view){const options=d.views||[];return '<nav class="tabbar" aria-label="Department subpages">'+options.map(z=>'<a class="tab '+(view===z[0]?"active":"")+'" href="'+companyLink(d.id)+(z[0]==="overview"?"":"?view="+encodeURIComponent(z[0]))+'">'+escapeHTML(z[1])+'</a>').join("")+'</nav>'}
@@ -94,6 +94,36 @@ function projectBoardPage(){
 return pageHeader("REVENUE / COMMAND BOARD","Clients & projects","A clear view of prospective work, active delivery and payment evidence. No sales wins are invented.",'<a class="outline-button" href="'+root+'systems/pipeline.html">↗ Full CRM shortlist</a>')+
 '<div class="board-introduction"><div class="board-kicker">COMPANY WORKFLOW</div><h2>From first conversation to delivered work.</h2><p>Visually track where opportunities belong, then separate genuinely approved projects and verified payments. The cards can be moved for planning, but this public board never modifies Google Sheets.</p><div class="board-pill-row"><span class="board-pill"><i></i> CRM-based starting positions</span><span class="board-pill"><i></i> Local-only moves</span><span class="board-pill"><i></i> Zero verified revenue</span></div></div>'+
 '<div id="board-root"><div class="loading-state">Preparing the opportunity board…</div></div>';
+}
+function managementPage(){
+const crm=D.links?.crm||"";
+const q=crm+"#gid=2070431",ev=crm+"#gid=2070432";
+const statuses=[
+["PROPOSE","A specialist chat or scheduled review identifies a meaningful improvement and adds a source-backed request."],
+["TRIAGE","Management checks fit, urgency, dependencies, risk, and whether a change is minor or major."],
+["APPROVE","Minor reversible cosmetic improvements may be pre-authorized. Major infrastructure, credentials, data edits, spending, or outreach require owner approval."],
+["BUILD","HQ development implements the change in a version-controlled branch with automated checks."],
+["VERIFY","Validation and live checks must pass before any change is marked shipped. Unexpected failures cause rollback and a visible issue."],
+["REPORT","Record commit, evidence and impact in the HQ Change Queue, then summarize meaningful changes to the owner."]
+];
+return pageHeader("GOVERNANCE / CONTINUOUS IMPROVEMENT","Management & improvements","The coordination layer for seven specialist workstreams, management decisions, HQ design and safe change approvals.",external("Open change queue",q))+
+'<div class="management-hero"><span class="eyebrow">THE OPERATING LOOP</span><h2>Every department contributes.<br><em>One verified source of truth.</em></h2><p>Instead of hidden chat-to-chat messages, each workstream writes verified updates to a private shared register. Management prioritizes them; the website team takes approved improvements; the HQ displays only verified, public-safe results.</p><div class="management-hero-actions">'+external("HQ Change Queue",q)+external("Company Event Log",ev)+'</div></div>'+
+sectionTitle("COORDINATION","How the chats will work together","Messages in separate ChatGPT chats do not synchronize automatically. The shared CRM is the durable handoff.")+
+'<div class="coordination-flow"><div class="coordination-source"><span class="coordination-label">DEPARTMENT SPECIALISTS</span><div class="coordination-nodes">'+(D.departments||[]).filter(x=>x.id!=="operations").map(x=>'<span>'+x.number+' · '+escapeHTML(x.name)+'</span>').join("")+'</div></div><div class="coordination-arrow">↓ verified events & evidence</div><div class="coordination-core"><span class="coordination-label">PRIVATE CONTROL PLANE</span><h3>Master CRM · Event Log · Change Queue</h3><p>Unique IDs, source evidence, owners, approval state, timestamps, delivery checks</p></div><div class="coordination-arrow">↓ approved tasks, not direct chat calls</div><div class="coordination-dest"><div><strong>Management review</strong><p>Priorities, impact and decisions</p></div><div><strong>HQ development</strong><p>UI, integrations and QA</p></div><div><strong>Command Center</strong><p>Executive status and verification</p></div></div></div>'+
+sectionTitle("CHANGE CONTROL","What can evolve automatically","Keep momentum while preventing hidden or high-risk changes.")+
+'<div class="management-permission-grid"><article class="permission-card allowed"><span class="permission-icon">✓</span><span class="eyebrow">LOW RISK · AFTER TESTS</span><h3>Small reversible improvements</h3><p>Spacing, typography, hover motion, broken-link fixes, clarity, accessibility and small responsive refinements. Record change, commit and test result.</p><span class="permission-tag">Eligible for limited pre-approval</span></article><article class="permission-card approval"><span class="permission-icon">!</span><span class="eyebrow">SIGNIFICANT CHANGE</span><h3>Owner approval required</h3><p>New services, paid tiers, identity or credentials, private data flows, significant redesigns, CRM writes, outbound email, scenario activation, or customer-facing promises.</p><span class="permission-tag">Stop for approval before execution</span></article></div>'+
+sectionTitle("RELEASE PROCESS","Six-stage improvement cycle","Each change must be visible in the authoritative private queue.")+
+'<div class="management-steps">'+statuses.map((p,i)=>'<article class="management-step"><span>'+String(i+1).padStart(2,"0")+'</span><div><strong>'+p[0]+'</strong><p>'+p[1]+'</p></div></article>').join("")+'</div>'+
+sectionTitle("ONGOING REVIEWS","Practical cadence, not fictional nonstop activity")+
+'<div class="card-grid">'+[
+["Event-driven updates","Where authorized provider webhooks exist, process changed records promptly. Event latency varies; second-by-second delivery is not guaranteed."],
+["Scheduled analysis","A recurring management review can evaluate source changes and recommend or implement only approved minor changes."],
+["Human visibility","The owner sees verified releases, pending approvals, blockers and source timestamps—not endless status spam."],
+["Shared responsibility","Dedicated chats read the same CRM and action queue. Historical chat transcripts are not themselves a realtime shared database."]
+].map(x=>card(x[0],x[1],"OPERATING RULE")).join("")+'</div>'+
+sectionTitle("SOURCE LINKS","Private coordination records")+
+'<div class="resource-grid"><a class="resource-card" href="'+q+'" target="_blank" rel="noopener"><span>▤</span><strong>HQ Change Queue</strong><small>Proposals, approvals, implementation and verification ↗</small></a><a class="resource-card" href="'+ev+'" target="_blank" rel="noopener"><span>▤</span><strong>Company Event Log</strong><small>Verified source updates and HQ refresh requirements ↗</small></a><a class="resource-card" href="'+crm+'#gid=2070427" target="_blank" rel="noopener"><span>☑</span><strong>Master Checklist</strong><small>Company-wide owner and action tracking ↗</small></a></div>'+
+'<div class="notice"><strong>Current state:</strong> Shared tabs exist, but unattended multi-agent coordination and second-by-second live synchronization have not been deployed. The protected backend and explicit approval boundaries are still required.</div>';
 }
 function taskPage(){
 let body=pageHeader("EXECUTION / OWNERSHIP","Action board","Plan and review work across all seven departments. This browser board does not write to Google Sheets.",'<button id="export-tasks" class="outline-button">↓ Export local CSV</button>')+'<div class="notice"><strong>Storage:</strong> Task status changes and new items are stored locally in this browser only. The Google Sheets Master Checklist remains authoritative.</div>';
@@ -194,6 +224,7 @@ function getPage(){
 switch(currentSystem){
 case "pipeline":return pipelinePage();
 case "projects":return projectBoardPage();
+case "management":return managementPage();
 case "tasks":return taskPage();
 case "workflows":return workflowPage();
 case "databases":return databasesPage();
