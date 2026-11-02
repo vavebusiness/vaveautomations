@@ -942,7 +942,7 @@ window.HQ_DATA = {
         "Rent roll/document-processing prototype evidence",
         "Discovery and paid pilot template",
         "Delivery QA and handover runbook",
-        "No unrelated storefront or Gumroad work"
+        "No unrelated product-store projects"
       ],
       "metrics": [
         "Verified prototype evidence",
