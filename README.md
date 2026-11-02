@@ -7,12 +7,13 @@ A responsive, public-safe operations dashboard for a custom workflow automation 
 ## What is actually implemented
 
 - **Seven departments** (00–06) with four subpages each: overview, SOP, work queue, metrics.
-- **Eleven system screens**: opportunity shortlist, animated draggable clients & projects board, management & improvements, local action board, Make workflow registry, nine source database links, reports, integration center roadmap, owner-authorized Google data reader, and two-chat launchpad.
+- **Eleven system screens**: opportunity shortlist, animated draggable clients & projects board, management & improvements, local action board, Make workflow registry, nine source database links, reports, integration center roadmap, owner-authorized Google data reader, and **nine-chat coordination launchpad**.
 - **Refined graphite/copper design, accessible scroll and micro-motion, premium kanban interactions, focus-mode navigation, global search, and responsive dashboard layout**.
 - **Sanitized CRM snapshot** at `data/overview.json`; metrics are historical and explicitly not live.
 - **Anonymized pipeline shortlist**—private buyer details remain in the master CRM.
 - **Workflow registry scoped to the real independent RentRoll PDF Underwriter and relevant helpers**, all inactive as of the audit.
 - **Local-only action board** with status editing, add-task form and CSV export. No writes back to Sheets.
+- **All nine ChatGPT roles**: seven original conversations preserved with copy-ready operating updates and two new specialist starters; [Company Chat Registry](https://docs.google.com/spreadsheets/d/1UE69BCAxQeQthQm7Ja2RyFgGHv-1BZCRxClACRTZl1c/edit#gid=2070433) tracks source responsibilities, status and handoff verification.
 - **Management event coordination**: private [HQ Change Queue](https://docs.google.com/spreadsheets/d/1UE69BCAxQeQthQm7Ja2RyFgGHv-1BZCRxClACRTZl1c/edit#gid=2070431) and [Company Event Log](https://docs.google.com/spreadsheets/d/1UE69BCAxQeQthQm7Ja2RyFgGHv-1BZCRxClACRTZl1c/edit#gid=2070432). Website shows links only, not private rows.
 - **Detailed operating documents**: `docs/tonight-2026-11-02.md`, `docs/architecture.md`, `docs/make-workflow-registry.md`, all seven `docs/departments/*.md` briefs, and `docs/management-automation-protocol.md` with role-specific chat instructions.
 
