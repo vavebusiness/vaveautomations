@@ -277,16 +277,16 @@ window.HQ_DATA = {
     {
       "name": "Google Sheets master CRM",
       "access": "Connected to ChatGPT",
-      "website": "Snapshot only",
-      "security": "Private; do not expose rows via Pages",
-      "action": "Set up authenticated server-side read-only connector"
+      "website": "Owner browser OAuth ready; not authorized",
+      "security": "Private records only rendered after owner-authorized Google OAuth",
+      "action": "Use Owner Live Data; configure Google OAuth client ID and grant Sheets readonly"
     },
     {
       "name": "Gmail sales inbox",
       "access": "Connected to ChatGPT",
-      "website": "Not connected",
-      "security": "Private message data and consent restrictions",
-      "action": "Server-side OAuth + suppression check before any actions"
+      "website": "Optional browser OAuth ready; not authorized",
+      "security": "Gmail metadata in browser only; no mail send/edit scope",
+      "action": "Enable Gmail API and separately grant gmail.readonly; may require Google verification"
     },
     {
       "name": "Make scenarios",
@@ -306,7 +306,7 @@ window.HQ_DATA = {
       "name": "Protected application backend",
       "access": "Not configured",
       "website": "Not connected",
-      "security": "Required for CRM records, login and writing",
+      "security": "Needed for unattended sync, Make API tokens, and safe write-back",
       "action": "Select provider, add auth and server-side secrets"
     }
   ],
