@@ -7,8 +7,8 @@ const crm="https://docs.google.com/spreadsheets/d/1UE69BCAxQeQthQm7Ja2RyFgGHv-1B
 const registry=crm+"#gid=2070433",events=crm+"#gid=2070432",queue=crm+"#gid=2070431";
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let status="";
-let query="";
-let filter="all";
+let query=(new URLSearchParams(location.search).get("chat")||"").slice(0,30);
+let filter=/^0[0-6]$/.test(query)?"existing":/^0[7-8]$/.test(query)?"new":"all";
 const KEY="vave-hq-chat-role-setup-v1";
 function loadProgress(){try{const x=JSON.parse(localStorage.getItem(KEY));return x&&typeof x==="object"?x:{}}catch(e){return{}}}
 let progress=loadProgress();
