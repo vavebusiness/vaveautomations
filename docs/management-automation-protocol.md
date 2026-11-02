@@ -2,7 +2,7 @@
 **Status:** Operational design and private shared registers implemented; autonomous cross-chat communication and live sync not yet deployed.
 **Reviewed:** 2 November 2026
 ## Purpose
-Coordinate the seven existing company workstreams plus two specialist roles:
+Coordinate all nine workstreams using the **seven original ChatGPT Project conversations** plus two specialist roles:
 - **07 — Management Review:** cross-department reliability, opportunities, decisions, priority and risk triage.
 - **08 — HQ Engineering:** website design, usability, infrastructure, release QA, safe integration changes.
 These are proposed roles/chats. This file does **not** create actual ChatGPT conversations or claim that one chat can message another on its own.
@@ -10,11 +10,20 @@ These are proposed roles/chats. This file does **not** create actual ChatGPT con
 In the current master Google Sheets CRM:
 - [HQ Change Queue](https://docs.google.com/spreadsheets/d/1UE69BCAxQeQthQm7Ja2RyFgGHv-1BZCRxClACRTZl1c/edit#gid=2070431): work proposals, type, risk, approvals, status, GitHub commit and verification.
 - [Company Event Log](https://docs.google.com/spreadsheets/d/1UE69BCAxQeQthQm7Ja2RyFgGHv-1BZCRxClACRTZl1c/edit#gid=2070432): verified changes in CRM, Gmail, Make and company operations.
+- [Company Chat Registry](https://docs.google.com/spreadsheets/d/1UE69BCAxQeQthQm7Ja2RyFgGHv-1BZCRxClACRTZl1c/edit#gid=2070433): original chat titles, current HQ scopes, source dependencies, work ownership, handoffs, setup state and optional private ChatGPT links.
 - Existing [Master Checklist](https://docs.google.com/spreadsheets/d/1UE69BCAxQeQthQm7Ja2RyFgGHv-1BZCRxClACRTZl1c/edit#gid=2070427): actionable priorities and owners.
 - [Public GitHub source](https://github.com/vavebusiness/vaveautomations): website code and public-safe technical documentation.
 ## State machine
 `Proposed → Approved → Implementing → In review → Shipped` with optional `Deferred` or `Rejected`.
 No status is marked shipped until code commit, passing CI and deployed website verification are recorded. Website changes should attach a source, user-impact statement, rollback method and latest release commit. Every update must be checked after writing.
+## Apply the nine-chat structure
+
+1. For original chats 00–06, send the corresponding role update **inside the existing conversation**. Keep its history; do not create a new duplicate or delete prior work.
+2. For 07 Management Review and 08 HQ Engineering, create two specialist conversations in the same ChatGPT Project and send their starter instructions.
+3. For each chat, verify connected source access and one truthful next action, then update its row in the private Chat Registry. Copy the actual chat URL only into the private registry, not public GitHub.
+4. Chat 05 originally carried the title Products & Store. Its Vave Automations scope is **Portfolio & Assets only**, excluding unrelated product-store work. Do not invent a history rewrite.
+5. This website offers a browser-local setup checklist. Checking it is not equivalent to updating the authoritative registry.
+
 ## Coordination runbook
 1. **Source event**: a workstream inspects the authoritative provider and verifies a real event (message, proposal, accepted payment, product, workflow run or code change). No invented state.
 2. **Event log**: save event ID, source ID, verified timestamp, entity kind, evidence reference, next owner and whether HQ refresh is needed. Never copy secrets or private message bodies into public GitHub.
