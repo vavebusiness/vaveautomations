@@ -5,7 +5,7 @@ const root=resolve(import.meta.dirname,"..");
 const read=p=>readFileSync(join(root,p),"utf8");
 const departmentIds=["command","acquisition","sales","development","partnerships","portfolio","operations"];
 const systemIds=["pipeline","projects","management","chatsetup","ownerdata","tasks","workflows","databases","reports","integrations","roadmap"];
-const htmls=["index.html",...departmentIds.filter(x=>x!=="command").map(x=>"departments/"+x+".html"),...systemIds.map(x=>"systems/"+x+".html")];
+const htmls=["index.html",...departmentIds.filter(x=>x!=="command").map(x=>"departments/"+x+".html"),...systemIds.map(x=>"systems/"+({chatsetup:"chat-launchpad",ownerdata:"owner-data"}[x]||x)+".html")];
 const text=read("assets/hq-data.js").replace(/^window\.HQ_DATA = /,"").trim().replace(/;\s*$/,"");
 const model=JSON.parse(text);
 assert.equal(model.departments.length,7);
