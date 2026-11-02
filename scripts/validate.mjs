@@ -46,9 +46,12 @@ assert.ok(read("systems/chat-launchpad.html").includes("assets/chat-roles.js"),"
 const roles=JSON.parse(read("assets/chat-roles.js").replace(/^window\.VAVE_CHAT_ROLES = /,"").trim().replace(/;\s*$/,""));
 assert.equal(roles.length,9,"All nine original and new chats must be listed");
 assert.equal(new Set(roles.map(x=>x.number)).size,9,"Chat numbers must be unique");
-assert.equal(roles.filter(x=>x.state==="existing").length,7,"Preserve seven original chats");
-assert.equal(roles.filter(x=>x.state==="new").length,2,"Only 07 and 08 should be new chats");
-assert.equal(roles.find(x=>x.number==="05")?.original,"05 — Products & Store","Preserve existing chat 05 identity");
+assert.equal(roles.filter(x=>x.state==="core").length,7,"Seven core department roles");
+assert.equal(roles.filter(x=>x.state==="specialist").length,2,"Two management specialist roles");
+assert.ok(roles.every(x=>x.conversationOrigin==="newly_created_owner_reported"),"All nine conversations must reflect owner-reported new creation");
+assert.ok(roles.every(x=>x.instructions==="sent_owner_reported"),"Instruction setup is owner-confirmed, not silently inferred");
+assert.ok(roles.every(x=>x.reviewStatus==="not_verified"),"Do not invent provider sync or source review");
+assert.equal(roles.find(x=>x.number==="05")?.name,"Portfolio & Assets","Keep 05 in company portfolio scope");
 for(const role of roles){
  assert.ok(role.prompt.includes("Company Chat Registry"),"Missing shared register in chat "+role.number);
  assert.ok(role.sourceDoc.startsWith("https://github.com/vavebusiness/vaveautomations/blob/main/"),"Missing instruction source "+role.number);
@@ -60,4 +63,4 @@ assert.ok(read("assets/app.js").includes("chat-launchpad.html?chat="),"Departmen
 
 assert.ok(read("assets/owner-live.js").includes("spreadsheets.readonly"),"Owner reader must use read-only Sheets scope");
 assert.ok(!read("assets/owner-live.js").includes("localStorage.setItem(\"googleAccessToken\""),"OAuth token cannot be stored");
-console.log("PASS: 18 routes, 7 preserved chats, 2 new specialist role definitions, 9 source instructions and read-only chat registry");
+console.log("PASS: 18 routes, 7 core chat roles, 2 specialist roles; all 9 newly created and instructed per owner, 9 source instructions and read-only chat registry");
