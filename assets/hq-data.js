@@ -1,6 +1,6 @@
 window.HQ_DATA = {
   "lastReviewed": "2026-11-02",
-  "sourceAsOf": "2026-10-31",
+  "sourceAsOf": "2026-11-02",
   "confidentiality": "Public-safe operational overview. No contact details, private client correspondence or credentials.",
   "organization": {
     "name": "Vave Automations",
@@ -111,13 +111,13 @@ window.HQ_DATA = {
     {
       "key": "opportunityRecords",
       "label": "Opportunity records",
-      "value": 250,
+      "value": 252,
       "sub": "Many are research-only"
     },
     {
       "key": "researchOnly",
       "label": "Explicit research-only",
-      "value": 174,
+      "value": 176,
       "sub": "Not confirmed buyer demand"
     },
     {
