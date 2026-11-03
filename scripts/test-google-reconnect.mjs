@@ -47,7 +47,7 @@ function launch(){
    document,window,localStorage,URL,URLSearchParams,Date,console,setInterval(){return 1},clearInterval(){},
    fetch:async (_url,opts)=>{
      assert.equal(opts.headers.Authorization,"Bearer "+fakeToken);
-     return {ok:true,json:async()=>({valueRanges:Array.from({length:12},()=>({values:[["Field","Value"],["Actual","Checked"]]}))})}
+     return {ok:true,json:async()=>({valueRanges:Array.from({length:13},()=>({values:[["Field","Value"],["Actual","Checked"]]}))})}
    }
  });
  vm.runInContext(source,context,{filename:"assets/owner-live.js"});
