@@ -1,6 +1,6 @@
 # Vave Automations — Multi-Chat Management & HQ Improvement Protocol
-**Status:** Operational design and private shared registers implemented; autonomous cross-chat communication and live sync not yet deployed.
-**Reviewed:** 2 November 2026
+**Status:** Private chat handoff queue and synthetic cross-chat read/write/read pilot verified. Security Shield browser hardening deployed or pending final Pages publication; private JWT-verified backend source tested but NOT DEPLOYED. Automated inter-chat communication and protected unattended sync not active.
+**Reviewed:** 3 November 2026
 ## Purpose
 Coordinate all nine workstreams using **nine newly created ChatGPT Project conversations**, including seven core departments (00–06) and two specialist roles (07–08):
 - **07 — Management Review:** cross-department reliability, opportunities, decisions, priority and risk triage.
@@ -34,7 +34,13 @@ No status is marked shipped until code commit, passing CI and deployed website v
 5. **HQ execution**: implement an approved change through GitHub, run route/privacy/javascript tests, check manual interactive behavior and Pages status, then record commit.
 6. **Owner report**: notify only meaningful verified changes, blockers or approval needs. Include exact change queue ID, what actually changed, evidence, and rollback instructions.
 ## No-cost architecture now
-GitHub Pages hosts static public-safe UI; GitHub Actions validates each commit. Private Sheets remain source of truth. No live private Gmail/Sheets/Make sync and no new hosting expense have been configured. 
+GitHub Pages hosts static public-safe UI and supports owner-authorized read-only Google Sheets browser reads. GitHub Actions validates each commit. The private Sheets remain source of truth. Optional browser Gmail metadata access is not yet owner-verified. Make private status, background sync and authenticated server-side write-back are NOT DEPLOYED; no new hosting expense has been configured.
+
+## Security Shield build checkpoint — November 3
+- Owner viewer: temporary in-memory Google access tokens; Google Sheets readonly, Gmail metadata-only, constrained browser CSP, fail-closed fetch redirects, 15-minute idle lock, clear-session and forget-browser controls.
+- Backend source: `backend/secure-worker` contains a separate private read-only API prototype that verifies Cloudflare Access JWT signature/audience/issuer/expiry/owner identity before responding. Credential placeholders are NOT live tokens; Google and Make secrets must be held only in protected runtime bindings.
+- Tests: synthetic unauthorized/wrong-owner/tampered/expired tokens rejected; no mutating methods; Make scenario allowlist; only explicit GET provider routes. Do NOT claim production security, deployed Access, real Google refresh consent, or Make credential connection.
+- Next dependency: approved protected runtime + owner-only login, credential configuration, live authorization test, and private first-party owner UI. Public GitHub Pages cannot be made private by adding a button or JavaScript alone. 
 For later authenticated sync, the candidate free-tier stack is Cloudflare Workers + D1 + Access within published quotas; Supabase Free is another candidate, but projects can pause after inactivity. Connecting anything requires user action and security review.
 ## Events and latency
 GitHub/Make/Google provider events can sometimes be near real-time when authorized webhooks and a backend exist. Scheduled ChatGPT reviews are **not nonstop processes** and cannot promise updates in the same second. Without such integrations, sources update only when a scheduled or explicit task reads and writes them. A shared sheet is a handoff channel, not autonomous inter-chat messaging.
