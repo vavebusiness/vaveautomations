@@ -70,4 +70,14 @@ assert.ok(second.root.innerHTML.includes("Reconnect your live CRM"),"Refreshing 
 assert.ok(!second.root.innerHTML.includes(fakeToken),"Reload must not leak access token");
 assert.ok(!second.root.innerHTML.includes("Actual"),"Private records must not be cached across reload");
 assert.ok(second.document.getElementById("quick-reconnect-sheets")?.handlers.click,"Reconnect must be clickable after reload");
+assert.ok(source.includes("gmail.metadata"),"Use Gmail metadata-only scope");
+assert.ok(!source.includes("auth/gmail.readonly"),"Do not request full read-only Gmail body access");
+assert.ok(source.includes('p.append("labelIds","INBOX")'),"Gmail metadata scope must not use unsupported q searches");
+assert.ok(source.includes('redirect:"error"'),"Do not follow API redirects with OAuth tokens");
+assert.ok(second.document.getElementById("owner-lock-session")?.handlers.click,"Security lock control must be interactive");
+assert.ok(second.document.getElementById("owner-forget-browser")?.handlers.click,"Forget-browser control must be interactive");
+second.document.getElementById("owner-forget-browser").handlers.click();
+assert.ok(!storage.has("vave-google-oauth-client-id"),"Forget this browser must remove public OAuth client setup");
+assert.ok(!storage.has("vave-google-sheets-granted"),"Forget this browser must remove stored grant flag");
+
 console.log("PASS: OAuth Client ID remembered; one-click reconnect after refresh; Google data and tokens not persisted.");
