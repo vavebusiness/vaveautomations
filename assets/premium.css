@@ -487,3 +487,9 @@ a,button,select{touch-action:manipulation}
 @media(max-width:950px){.chat-coordination-summary{flex-direction:column;align-items:stretch}.chat-coordination-summary>div:last-child{max-width:none;flex-direction:row}.chat-coordination-summary .outline-button{flex:1}}
 @media(max-width:650px){.chatlaunch-all{padding:25px 21px}.chatlaunch-stats{gap:7px}.chatlaunch-stats>span{font-size:9px;padding:7px 10px}.chat-control-bar{padding:19px}.chat-role-filter{width:100%}.chat-role-filter button{flex:1}.chat-step-guide{grid-template-columns:1fr}.chat-step-guide>div{min-height:unset;padding:12px}.chat-role-card{padding:19px}.chat-role-top{flex-wrap:wrap}.chat-role-state{margin-left:58px}.chat-role-minor{align-items:flex-start;flex-direction:column}.chat-role-minor label{margin-top:4px}.chat-coordination-summary{padding:22px}.chat-coordination-summary>div:last-child{flex-direction:column}.chat-role-group-head h2{font-size:17px}}
 @media(prefers-reduced-motion:reduce){.chat-role-card:hover{transform:none}}
+
+/* Owner-only browser session controls. Not a substitute for a protected backend. */
+.owner-guard-actions{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 16px}
+.owner-guard-actions .outline-button{padding:10px 15px;font-size:11px}
+.owner-guard-actions .outline-button:focus-visible{outline:2px solid var(--accent-strong);outline-offset:3px}
+@media(max-width:560px){.owner-guard-actions{flex-direction:column}.owner-guard-actions .outline-button{width:100%;text-align:center}}
