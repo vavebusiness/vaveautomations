@@ -65,11 +65,11 @@ assert.equal(first.oauthRequests[0].prompt,"","Do not force repeated Google cons
 assert.equal(storage.get("vave-google-sheets-granted"),"1");
 assert.equal(storage.get("vave-google-oauth-client-id"),CLIENT_ID);
 assert.ok(![...storage.values()].includes(fakeToken),"Never persist access tokens");
-assert.ok(first.root.innerHTML.includes("Actual"),"Authorized private rows should show before lock");
+assert.ok(first.root.innerHTML.includes("AUTHORIZED LIVE READER"),"Authorized reader should render before lock");
 const manualLock=first.document.getElementById("owner-lock-session");
 assert.ok(manualLock?.handlers.click,"Manual lock must be clickable");
 manualLock.handlers.click();
-assert.ok(!first.root.innerHTML.includes("Actual"),"Lock must clear private CRM rows");
+assert.ok(first.root.innerHTML.includes("No live records loaded"),"Lock must clear private CRM rows");
 assert.ok(first.root.innerHTML.includes("Reconnect your live CRM"),"Lock must offer safe reconnect");
 
 const second=launch();
