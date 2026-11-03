@@ -17,7 +17,7 @@ const env={
  MAKE_SCENARIO_IDS:"15,16"
 };
 const now=Math.floor(Date.now()/1000);
-const b64=v=>Buffer.from(typeof v==="string"?v:JSON.stringify(v)).toString("base64url");
+const b64=v=>(Buffer.isBuffer(v)?v:Buffer.from(typeof v==="string"?v:JSON.stringify(v))).toString("base64url");
 async function makeJwt(overrides={}){
  const header=b64({alg:"RS256",kid:jwk.kid});
  const payload=b64({iss:"https://"+env.ACCESS_TEAM_DOMAIN,aud:[env.ACCESS_AUD],
