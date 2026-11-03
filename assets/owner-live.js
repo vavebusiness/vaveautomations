@@ -56,6 +56,43 @@ el.innerHTML=quickRestore+'<div class="owner-privacy"><span class="owner-lock">�
 '<div class="owner-security"><span class="eyebrow">SECURITY SHIELD · BROWSER-ONLY PROTECTION</span><h3>Private records stay under your control</h3><p><strong>Current protection:</strong> Google read-only authorization, in-memory tokens, private data cleared on navigation, and automatic idle lock after 15 minutes. This is <strong>not</strong> a private server login; the public page source remains visible.</p><div class="owner-guard-actions"><button type="button" id="owner-lock-session" class="outline-button">Lock private session</button><button type="button" id="owner-forget-browser" class="outline-button">Forget this browser</button></div><p><strong>What is still separate:</strong> Make API access, background sync and audited CRM write-back require a protected backend. ChatGPT chats communicate only through verified shared records, not direct messaging.</p></div>';
 attach();
 }
+
+function handoffSnapshot(rows){
+ const today=new Date(),localToday=[today.getFullYear(),String(today.getMonth()+1).padStart(2,"0"),String(today.getDate()).padStart(2,"0")].join("-");
+ const items=(Array.isArray(rows)?rows:[]).slice(1).filter(r=>Array.isArray(r)&&String(r[0]||"").trim())
+ .filter(r=>String(r[7]||"").trim().toUpperCase()!=="DEMO ONLY")
+ .map(r=>{
+  const status=String(r[7]||"").trim(),due=String(r[8]||"").trim();
+  const finished=["done","cancelled","canceled"].includes(status.toLowerCase());
+  return {id:String(r[0]||""),from:String(r[2]||""),to:String(r[3]||""),
+    summary:String(r[4]||""),next:String(r[5]||""),owner:String(r[6]||""),
+    status,due,blocked:status.toLowerCase()==="blocked",
+    overdue:!finished&&/^\d{4}-\d{2}-\d{2}$/.test(due)&&due<localToday,finished};
+ });
+ const open=items.filter(x=>!x.finished);
+ open.sort((a,b)=>Number(b.blocked)-Number(a.blocked)||Number(b.overdue)-Number(a.overdue)||
+    (a.due||"9999").localeCompare(b.due||"9999")||a.id.localeCompare(b.id));
+ return {open,blocked:open.filter(x=>x.blocked).length,overdue:open.filter(x=>x.overdue).length};
+}
+function renderHandoffInbox(rows){
+ const q=handoffSnapshot(rows);
+ let html='<section class="owner-handoff" aria-label="Private handoff inbox"><div class="owner-handoff-top"><div><span class="eyebrow">PRIVATE / LIVE SHEETS</span><h4>Department handoff inbox</h4><p>Only real assignments are shown. DEMO ONLY items are excluded. Changes happen in the private CRM, not here.</p></div><div class="owner-handoff-totals"><span><strong>'+q.open.length+'</strong> Open</span><span><strong>'+q.blocked+'</strong> Blocked</span><span><strong>'+q.overdue+'</strong> Overdue</span></div></div>';
+ if(!q.open.length)html+='<p class="owner-handoff-empty">No active department handoffs in the authorized sheet. Other sales work may still be outstanding.</p>';
+ else html+='<div class="owner-handoff-list">'+q.open.slice(0,35).map(x=>
+ '<article class="owner-handoff-item"><div class="owner-handoff-meta"><strong>'+esc(x.id)+'</strong><span class="owner-handoff-status">'+esc(x.status||"Unspecified")+'</span>'+
+ (x.overdue?'<span class="owner-handoff-alert">Overdue</span>':'')+'</div>'+
+ '<div class="owner-handoff-summary">'+esc(x.summary||"No summary supplied")+'</div>'+
+ '<p><b>Next:</b> '+esc(x.next||"Not specified")+'</p><div class="owner-handoff-foot"><span><b>Owner:</b> '+esc(x.owner||x.to||"Unassigned")+'</span><span><b>Due:</b> '+esc(x.due||"Not set")+'</span><span><b>From / To:</b> '+esc(x.from||"—")+' → '+esc(x.to||"—")+'</span></div></article>'
+ ).join("")+'</div>';
+ return html+'<p class="owner-count">Showing '+Math.min(q.open.length,35)+' of '+q.open.length+' active handoffs. <a href="https://docs.google.com/spreadsheets/d/'+SHEET_ID+'/edit#gid=2070434" target="_blank" rel="noopener noreferrer">Open private source queue ↗</a> · Scheduled reviews are periodic, not instant.</p></section>';
+}
+function renderHandoffShortcut(){
+ if(!state.rows)return "";
+ const ix=sheets.findIndex(x=>x.name==="Department Handoff Queue");
+ const q=handoffSnapshot(state.rows[ix]||[]);
+ return '<div class="owner-handoff-shortcut"><div><strong>Department handoffs</strong><span>'+q.open.length+' open · '+q.blocked+' blocked · '+q.overdue+' overdue</span></div><button type="button" class="outline-button" data-dataset="Department Handoff Queue">View handoff inbox</button></div>';
+}
+
 function renderBoard(){
 if(!state.rows&&!state.mail.length)return '<div class="owner-empty"><div class="owner-empty-icon">▦</div><h3>No live records loaded</h3><p>Connect Google Sheets to read authorized private CRM data into this browser. The public snapshot elsewhere on the website remains unchanged.</p></div>';
 const tabs=(state.rows?sheets.map(x=>x.name):[]).concat(state.mail.length?["Gmail Inbox"]:[]);
@@ -65,6 +102,9 @@ let body='';
 if(active==="Gmail Inbox"){
 const list=state.mail.filter(x=>[x.from,x.subject,x.date].join(" ").toLowerCase().includes(state.filter.toLowerCase())).slice(0,MAX_DISPLAY);
 body='<div class="owner-table-wrap"><table class="owner-table"><thead><tr><th>From</th><th>Subject</th><th>Date</th></tr></thead><tbody>'+list.map(x=>'<tr><td>'+esc(x.from)+'</td><td>'+esc(x.subject)+'</td><td>'+esc(x.date)+'</td></tr>').join("")+'</tbody></table></div>';
+}else if(active==="Department Handoff Queue"){
+const ix=sheets.findIndex(x=>x.name===active);
+body=renderHandoffInbox(state.rows?.[ix]||[]);
 }else{
 const ix=sheets.findIndex(x=>x.name===active),rows=state.rows?.[ix]||[],offset=sheets[ix]?.header||0;
 const header=rows[offset]||[],data=rows.slice(offset+1).filter(row=>row.some(c=>String(c||"").trim()));
@@ -74,6 +114,7 @@ body='<div class="owner-table-wrap"><table class="owner-table"><thead><tr>'+Arra
 }
 const ts=active==="Gmail Inbox"?state.lastGmail:state.lastSheets;
 return '<div class="owner-data-title"><div><span class="eyebrow">AUTHORIZED LIVE READER</span><h3>Private workspace data</h3><small>Last successful fetch: '+(ts?new Date(ts).toLocaleString():"not yet")+' · manual refresh available</small></div><div class="owner-data-actions"><input id="owner-filter" placeholder="Filter loaded records…" type="search" aria-label="Filter loaded records" value="'+esc(state.filter)+'"><button id="owner-refresh" class="outline-button" type="button">↻ Refresh</button><button id="owner-disconnect" class="outline-button" type="button">Disconnect</button></div></div>'+
+renderHandoffShortcut()+
 '<nav class="owner-tabs" aria-label="Private datasets">'+tabs.map(t=>'<button type="button" class="owner-tab '+(active===t?"selected":"")+'" data-dataset="'+esc(t)+'">'+esc(t)+'</button>').join("")+'</nav>'+
 body;
 }
