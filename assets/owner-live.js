@@ -6,7 +6,7 @@
 "use strict";
 const el=document.getElementById("owner-live-root");if(!el)return;
 const SCOPE_SHEETS="https://www.googleapis.com/auth/spreadsheets.readonly";
-const SCOPE_GMAIL="https://www.googleapis.com/auth/gmail.readonly";
+const SCOPE_GMAIL="https://www.googleapis.com/auth/gmail.metadata";
 const SHEET_ID="1UE69BCAxQeQthQm7Ja2RyFgGHv-1BZCRxClACRTZl1c";
 const MAX_DISPLAY=65;
 const sheets=[
@@ -37,6 +37,12 @@ function hadGrant(which){try{return localStorage.getItem(GRANT_KEY[which])==="1"
 function rememberGrant(which){try{localStorage.setItem(GRANT_KEY[which],"1")}catch(e){}}
 
 function banner(msg,type="neutral"){state.notice=msg;state.noticeType=type;const area=document.getElementById("connection-notice");if(area){area.textContent=msg;area.dataset.type=type}}
+function lockSession(message="Private session locked. Reconnect to load authorized records again.") {
+ state.sheetsToken=null;state.gmailToken=null;state.sheetsUntil=0;state.gmailUntil=0;
+ state.rows=null;state.mail=[];state.filter="";state.lastSheets=0;state.lastGmail=0;
+ state.busySheets=false;state.busyGmail=false;state.notice=message;state.noticeType="info";
+ render();
+}
 function statusLabel(active){return active?'<span class="owner-pill connected">● Connected · read only</span>':'<span class="owner-pill">○ Not connected</span>'}
 function render(){
 const returnVisit=!!state.clientId&&!hasSheets();
@@ -47,7 +53,7 @@ el.innerHTML=quickRestore+'<div class="owner-privacy"><span class="owner-lock">�
 '<article class="owner-connection"><div class="owner-connection-head"><span class="owner-step-number">03</span><div><h3>Gmail · inbox metadata</h3>'+statusLabel(hasGmail())+'</div></div><p>Optional separate permission to read the latest inbox message IDs, senders, subjects and dates. No sending, deleting or modification.</p><button type="button" id="connect-gmail" class="outline-button" '+(!state.clientId||!state.googleReady?"disabled":"")+'>'+(hasGmail()?"Renew Gmail access":hadGrant("gmail")?"Reconnect Gmail":"Authorize Gmail read-only")+'</button><small>Gmail permission is restricted by Google and may require app verification; start with Sheets first.</small></article></div>'+
 '<div id="connection-notice" data-type="'+esc(state.noticeType)+'" class="owner-notice" role="status">'+esc(state.notice||(!state.googleReady?"Loading Google authorization…":(returnVisit?"Click Reconnect Sheets to restore the private CRM. No private records or Google tokens were saved.":"Connect with Sheets to see real source data.")))+'</div>'+
 '<div class="owner-board" id="live-board">'+renderBoard()+'</div>'+
-'<div class="owner-security"><h3>What remains separate</h3><p><strong>Make:</strong> a Make API key cannot safely be placed on a public site. The workflow registry remains a verified configuration snapshot until a protected connector is deployed. <strong>ChatGPT chats:</strong> workstreams coordinate through private Google Sheets and scheduled reviews, not immediate chat-to-chat messaging.</p></div>';
+'<div class="owner-security"><span class="eyebrow">SECURITY SHIELD · BROWSER-ONLY PROTECTION</span><h3>Private records stay under your control</h3><p><strong>Current protection:</strong> Google read-only authorization, in-memory tokens, private data cleared on navigation, and automatic idle lock after 15 minutes. This is <strong>not</strong> a private server login; the public page source remains visible.</p><div class="owner-guard-actions"><button type="button" id="owner-lock-session" class="outline-button">Lock private session</button><button type="button" id="owner-forget-browser" class="outline-button">Forget this browser</button></div><p><strong>What is still separate:</strong> Make API access, background sync and audited CRM write-back require a protected backend. ChatGPT chats communicate only through verified shared records, not direct messaging.</p></div>';
 attach();
 }
 function renderBoard(){
@@ -72,7 +78,7 @@ return '<div class="owner-data-title"><div><span class="eyebrow">AUTHORIZED LIVE
 body;
 }
 async function fetchJson(url,token){
-const r=await fetch(url,{headers:{Authorization:"Bearer "+token},cache:"no-store",credentials:"omit",redirect:"follow"});
+const r=await fetch(url,{headers:{Authorization:"Bearer "+token},cache:"no-store",credentials:"omit",redirect:"error"});
 let j={};try{j=await r.json()}catch(e){}
 if(!r.ok){const reason=j?.error?.message||"HTTP "+r.status;throw Error(reason)}
 return j;
@@ -100,7 +106,7 @@ if(!hasGmail()){banner("Gmail authorization expired. Reconnect Gmail to read mes
 if(state.busyGmail)return;
 state.busyGmail=true;banner("Reading recent inbox metadata from your authorized Gmail account…","info");
 try{
-const p=new URLSearchParams({maxResults:"12",q:"in:inbox newer_than:14d -category:promotions"});
+const p=new URLSearchParams({maxResults:"12"});p.append("labelIds","INBOX");
 const j=await fetchJson("https://gmail.googleapis.com/gmail/v1/users/me/messages?"+p,state.gmailToken);
 const ids=Array.isArray(j.messages)?j.messages.slice(0,12):[];
 const messages=await Promise.all(ids.map(async m=>{
@@ -144,8 +150,8 @@ document.querySelectorAll("#owner-live-root [data-dataset]").forEach(b=>b.addEve
 document.getElementById("owner-filter")?.addEventListener("input",e=>{const value=e.target.value,pos=e.target.selectionStart;state.filter=value;updateBoard();const search=document.getElementById("owner-filter");search?.focus();search?.setSelectionRange(pos,pos)});
 document.getElementById("owner-refresh")?.addEventListener("click",()=>state.selected==="Gmail Inbox"?refreshGmail():refreshSheets());
 document.getElementById("owner-disconnect")?.addEventListener("click",()=>{
-state.sheetsToken=null;state.gmailToken=null;state.sheetsUntil=0;state.gmailUntil=0;state.rows=null;state.mail=[];state.filter="";
-banner("Reader disconnected from this page. Previously granted Google account permissions can be revoked in Google's account settings.","info");render();
+lockSession("Reader disconnected from this page. Google account permissions can be revoked separately from your Google Account.");
+
 });
 }
 function attach(){
@@ -159,15 +165,24 @@ render();banner(v?"OAuth client ID saved in this browser. Authorize Sheets to co
 document.getElementById("connect-sheets")?.addEventListener("click",()=>authorize("sheets"));
 document.getElementById("quick-reconnect-sheets")?.addEventListener("click",()=>authorize("sheets"));
 document.getElementById("connect-gmail")?.addEventListener("click",()=>authorize("gmail"));
+document.getElementById("owner-lock-session")?.addEventListener("click",()=>lockSession());
+document.getElementById("owner-forget-browser")?.addEventListener("click",()=>{
+ try{localStorage.removeItem("vave-google-oauth-client-id");localStorage.removeItem(GRANT_KEY.sheets);localStorage.removeItem(GRANT_KEY.gmail);sessionStorage.removeItem("vave-google-last-dataset")}catch(e){}
+ state.clientId="";state.selected="Dashboard";
+ lockSession("Browser setup cleared. Revoke Google account permissions separately through Google.");
+});
 attachBoard();
 }
 if(state.clientId&&hadGrant("sheets"))state.notice="Previously authorized: click Reconnect Sheets to restore your data. Google requires a user click after refresh; no passwords or tokens are stored.";
 render();
 const script=document.createElement("script");script.src="https://accounts.google.com/gsi/client";script.async=true;script.onload=()=>{state.googleReady=!!window.google?.accounts?.oauth2;render();if(!state.googleReady)banner("Google's sign-in library did not become available.","error")};script.onerror=()=>banner("Unable to load Google's sign-in library. Network settings may be blocking it.","error");document.head.appendChild(script);
+let lastActivity=Date.now();
+["pointerdown","keydown","touchstart"].forEach(type=>window.addEventListener(type,()=>{lastActivity=Date.now()},{passive:true}));
 let timer=setInterval(()=>{
+if((state.rows||state.mail.length)&&Date.now()-lastActivity>15*60*1000){lockSession("Security Shield: private data automatically locked after 15 minutes of inactivity.");return}
 if(document.visibilityState!=="visible")return;
 if(hasSheets()&&state.lastSheets&&Date.now()-state.lastSheets>120000)refreshSheets();
 if(hasGmail()&&state.lastGmail&&Date.now()-state.lastGmail>120000)refreshGmail();
 },30000);
-window.addEventListener("pagehide",()=>clearInterval(timer),{once:true});
+window.addEventListener("pagehide",()=>{clearInterval(timer);lockSession("Private session closed after leaving the page.");},{once:true});
 })();
