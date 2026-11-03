@@ -179,7 +179,7 @@ const script=document.createElement("script");script.src="https://accounts.googl
 let lastActivity=Date.now();
 ["pointerdown","keydown","touchstart"].forEach(type=>window.addEventListener(type,()=>{lastActivity=Date.now()},{passive:true}));
 let timer=setInterval(()=>{
-if((state.rows||state.mail.length)&&Date.now()-lastActivity>15*60*1000){lockSession("Security Shield: private data automatically locked after 15 minutes of inactivity.");return}
+if((hasSheets()||hasGmail()||state.rows||state.mail.length)&&Date.now()-lastActivity>15*60*1000){lockSession("Security Shield: private data automatically locked after 15 minutes of inactivity.");return}
 if(document.visibilityState!=="visible")return;
 if(hasSheets()&&state.lastSheets&&Date.now()-state.lastSheets>120000)refreshSheets();
 if(hasGmail()&&state.lastGmail&&Date.now()-state.lastGmail>120000)refreshGmail();
