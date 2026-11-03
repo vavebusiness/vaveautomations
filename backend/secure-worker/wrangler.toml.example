@@ -1,0 +1,20 @@
+# Reference only. This Worker is NOT deployed and no provider account was modified.
+# Copy locally only after authorizing a protected runtime.
+name = "vave-private-connector"
+main = "src/index.js"
+compatibility_date = "2026-11-03"
+workers_dev = true
+
+[vars]
+# Public/nonsecret configuration must be set through protected deployment config.
+# ACCESS_TEAM_DOMAIN = "YOUR-TEAM.cloudflareaccess.com"
+# ACCESS_AUD = "YOUR-ACCESS-AUDIENCE-TAG"
+# OWNER_EMAIL = "THE-APPROVED-OWNER-EMAIL"
+# CRM_SHEET_ID = "PRIVATE-SPREADSHEET-ID"
+# MAKE_TEAM_ID = "YOUR-TEAM-ID"
+# MAKE_SCENARIO_IDS = "APPROVED-SERVICE-SCENARIO-IDS"
+MAKE_ZONE = "eu2.make.com"
+
+# Never add actual credentials here or in GitHub.
+# Secrets required if enabled:
+# GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET, GOOGLE_REFRESH_TOKEN, MAKE_API_TOKEN
