@@ -1,6 +1,6 @@
 # Connect private Google data to GitHub Pages at no new hosting cost
 
-**Prepared:** 2 November 2026 · **Integration status:** Browser reader built; Google OAuth client and owner authorization still required.
+**Updated:** 3 November 2026 · **Integration status:** Browser reader deployed with owner-confirmed Sheets authorization. Gmail authorization is optional and not independently verified. A protected server connector is prepared as source code but not deployed.
 
 ## How it works
 
@@ -20,12 +20,12 @@ This is an interactive browser session, not an unattended synchronization servic
 6. Under **Authorized JavaScript origins**, add exactly `https://vavebusiness.github.io` (the origin only, **not** `/vaveautomations/`).
 7. Copy the **Client ID** (ends in `.apps.googleusercontent.com`). Don't copy or share the client secret.
 8. Open [Owner Live Data](https://vavebusiness.github.io/vaveautomations/systems/owner-data.html), paste the Client ID in the setup box and choose **Use Client ID**. This public identifier is saved only in this browser's local storage.
-9. Click **Authorize Sheets read-only**. In the genuine Google prompt, grant only the intended read-only access. The HQ then requests the eleven source ranges directly from Google Sheets and displays the results locally.
-10. If you also want Gmail read-only, enable the Gmail API and consider its OAuth scope restrictions. Choose **Authorize Gmail read-only** separately. Google may require app verification or restrict testing access; do not work around that.
+9. Click **Authorize Sheets read-only**. In the genuine Google prompt, grant only the intended read-only access. The HQ then requests the thirteen source ranges directly from Google Sheets and displays the results locally.
+10. If you also want Gmail metadata-only, enable the Gmail API and consider its OAuth scope restrictions. Choose **Authorize Gmail read-only** separately. Google may require app verification or restrict testing access; do not work around that.
 
 ## Expected Sheets datasets
 
-- Dashboard; Opportunities; Master Checklist; HQ Change Queue; Company Event Log
+- Dashboard; Opportunities; Master Checklist; HQ Change Queue; Company Event Log; Company Chat Registry; Department Handoff Queue
 - Sent Outreach; No Contact; Safety Audit; First Client Sprint; Sales Playbook; 200 Lead Launch Board
 
 Each source tab is a bounded, authorized read. Google Sheets remains the authoritative database. No website action edits or sends.
@@ -35,15 +35,17 @@ Each source tab is a bounded, authorized read. Google Sheets remains the authori
 - No sign-in or provider connection is created automatically merely by committing this code.
 - No background refresh while the browser is closed; no guaranteed same-second updates.
 - No source write-back; it does not send mail, change leads, or run Make.
-- Make scenario details remain a verified public-safe snapshot. A private server connection is required for unattended Make polling because its API key cannot be placed in public JavaScript.
+- A protected source-only Cloudflare Access/JWT-verified worker prototype exists in `backend/secure-worker`; it is NOT deployed and holds no credentials. Make scenario details remain a verified public-safe snapshot. A private server connection is required for unattended Make polling because its API key cannot be placed in public JavaScript.
 - Dedicated ChatGPT conversations are set up via the ChatGPT interface using the [chat launchpad](https://vavebusiness.github.io/vaveautomations/systems/chat-launchpad.html). Separate chats do not auto-message each other.
 
 ## Security controls
 
+- A route-specific Content Security Policy limits scripts, frames and Google API connections, but is not a substitute for protected hosting.
+- Manual **Lock private session** and **Forget this browser** controls are provided. Private records auto-lock after 15 minutes of inactivity and are cleared when leaving the page.
 - Client ID is not a secret and may live in browser storage. Google access tokens are never stored in localStorage, sessionStorage or GitHub source.
 - The browser sends access tokens only in Authorization headers to official Google API endpoints. No Google data is written to public files.
 - All tab cells are HTML-escaped before rendering to prevent HTML injection through spreadsheet values.
-- Gmail reader requests metadata only (From/Subject/Date), not full message bodies. Do not interpret all inbox messages as buyer replies.
+- Gmail reader requests the `gmail.metadata` OAuth scope and returns From/Subject/Date metadata only, not message bodies. This scope does not support search queries, so the browser lists bounded recent INBOX items by label. Do not interpret all inbox messages as buyer replies.
 - Disconnect clears tokens and loaded records from the current page; Google's persistent account grant can be revoked from your Google account permissions.
 - Use an account and device you control. Anyone using your **unlocked, authorized browser** may see private records.
 - Never publish tokens, customer financial data, client files, private correspondence or suppression addresses in a GitHub commit.
