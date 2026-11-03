@@ -493,3 +493,27 @@ a,button,select{touch-action:manipulation}
 .owner-guard-actions .outline-button{padding:10px 15px;font-size:11px}
 .owner-guard-actions .outline-button:focus-visible{outline:2px solid var(--accent-strong);outline-offset:3px}
 @media(max-width:560px){.owner-guard-actions{flex-direction:column}.owner-guard-actions .outline-button{width:100%;text-align:center}}
+
+/* Read-only private handoff inbox. Private data rendered only from authorized browser reads. */
+.owner-handoff-shortcut{display:flex;gap:18px;align-items:center;justify-content:space-between;padding:16px 18px;margin:14px 0;border:1px solid var(--stroke);border-radius:16px;background:var(--surface2)}
+.owner-handoff-shortcut>div{display:grid;gap:4px}
+.owner-handoff-shortcut strong{font-size:14px;font-weight:700;color:var(--text)}
+.owner-handoff-shortcut span{font-size:12px;color:var(--muted)}
+.owner-handoff{display:grid;gap:16px}
+.owner-handoff-top{display:flex;justify-content:space-between;gap:24px;align-items:flex-start;flex-wrap:wrap}
+.owner-handoff-top h4{font-size:20px;margin:6px 0}
+.owner-handoff-top p{font-size:13px;line-height:1.5;max-width:570px;color:var(--muted);margin:0}
+.owner-handoff-totals{display:flex;flex-wrap:wrap;gap:8px}
+.owner-handoff-totals span{display:grid;gap:2px;min-width:85px;padding:10px 13px;border-radius:12px;border:1px solid var(--stroke);font-size:11px;color:var(--muted);background:var(--surface2)}
+.owner-handoff-totals strong{font-size:21px;color:var(--text);font-variant-numeric:tabular-nums}
+.owner-handoff-empty{padding:24px;color:var(--muted);background:var(--surface2);border:1px dashed var(--stroke);border-radius:14px;line-height:1.5}
+.owner-handoff-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:12px}
+.owner-handoff-item{padding:17px;background:var(--surface2);border:1px solid var(--stroke);border-radius:16px;min-width:0;overflow-wrap:anywhere}
+.owner-handoff-meta{display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:11px;font-size:12px}
+.owner-handoff-status,.owner-handoff-alert{font-size:10px;color:var(--muted);border:1px solid var(--stroke);border-radius:999px;padding:4px 8px}
+.owner-handoff-alert{color:#f8bd9f;border-color:#9d4c35}
+.owner-handoff-summary{font-size:15px;line-height:1.5;font-weight:650;margin-bottom:9px}
+.owner-handoff-item p{font-size:13px;line-height:1.55;color:var(--muted);margin:0 0 12px}
+.owner-handoff-item p b,.owner-handoff-foot b{color:var(--text)}
+.owner-handoff-foot{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;color:var(--muted);border-top:1px solid var(--stroke);padding-top:10px}
+@media(max-width:600px){.owner-handoff-shortcut{flex-direction:column;align-items:stretch}.owner-handoff-shortcut button{width:100%}.owner-handoff-totals{width:100%}.owner-handoff-totals span{flex:1;min-width:0}}
