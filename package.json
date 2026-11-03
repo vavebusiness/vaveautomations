@@ -5,7 +5,7 @@
   "type": "module",
   "description": "Public-safe Vave Automations operational interface",
   "scripts": {
-    "test": "node --check assets/app.js && node --check assets/hq-data.js && node --check assets/motion.js && node --check assets/project-board.js && node --check assets/chat-launch.js && node --check assets/owner-live.js && node scripts/validate.mjs && node scripts/test-google-reconnect.mjs"
+    "test": "node --check assets/app.js && node --check assets/hq-data.js && node --check assets/motion.js && node --check assets/project-board.js && node --check assets/chat-launch.js && node --check assets/owner-live.js && node scripts/validate.mjs && node scripts/test-google-reconnect.mjs && node --check backend/secure-worker/src/index.js && node backend/secure-worker/test/security.test.mjs"
   },
   "engines": {
     "node": ">=20"
