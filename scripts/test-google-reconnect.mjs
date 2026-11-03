@@ -38,16 +38,26 @@ function launch(){
    }
  }}};
  const window={google,addEventListener(){},matchMedia:()=>({matches:false})};
+ const sessionStorage={
+ getItem(k){return k==="vave-google-last-dataset"?"Department Handoff Queue":null},
+ setItem(){},removeItem(){}
+};
  const localStorage={
   getItem(k){return storage.get(k)||null},
   setItem(k,v){storage.set(k,String(v))},
   removeItem(k){storage.delete(k)}
  };
  const context=vm.createContext({
-   document,window,localStorage,URL,URLSearchParams,Date,console,setInterval(){return 1},clearInterval(){},
+   document,window,localStorage,sessionStorage,URL,URLSearchParams,Date,console,setInterval(){return 1},clearInterval(){},
    fetch:async (_url,opts)=>{
      assert.equal(opts.headers.Authorization,"Bearer "+fakeToken);
-     return {ok:true,json:async()=>({valueRanges:Array.from({length:13},()=>({values:[["Field","Value"],["Actual","Checked"]]}))})}
+     return {ok:true,json:async()=>({valueRanges:Array.from({length:13},(_,i)=>({
+      values:i===6?[
+       ["Task ID","Related CRM record","From chat","To chat","What happened","What to do next","Responsible chat","Status","Review date","Evidence / source link","Last checked","Notes"],
+       ["DEMO-001","training","01","02","A fake training task","Do nothing","02","DEMO ONLY","2020-01-01"],
+       ["TEST-SAMPLE-123","test","01 — Acquisition","02 — Sales","<img src=x onerror=alert(1)>","Review synthetic test only","02 — Sales","Blocked","2020-01-01"]
+      ]:[["Field","Value"],["Actual","Checked"]]
+    }))})}
    }
  });
  vm.runInContext(source,context,{filename:"assets/owner-live.js"});
@@ -66,6 +76,15 @@ assert.equal(storage.get("vave-google-sheets-granted"),"1");
 assert.equal(storage.get("vave-google-oauth-client-id"),CLIENT_ID);
 assert.ok(![...storage.values()].includes(fakeToken),"Never persist access tokens");
 assert.ok(first.document.getElementById("live-board")?.innerHTML?.includes("AUTHORIZED LIVE READER"),"Authorized reader should render before lock");
+assert.ok(first.document.getElementById("live-board")?.innerHTML?.includes("Department handoff inbox"),"Private handoff inbox should render after approved OAuth");
+const privateUI=first.document.getElementById("live-board").innerHTML;
+assert.ok(privateUI.includes("TEST-SAMPLE-123"),"Verified synthetic assignment must be visible");
+assert.ok(!privateUI.includes("DEMO-001"),"DEMO ONLY row must be excluded");
+assert.ok(privateUI.includes("1 open · 1 blocked · 1 overdue"),"Handoff counts should be derived from source data");
+assert.ok(privateUI.includes("&lt;img"),"Untrusted spreadsheet text must be escaped");
+assert.ok(!privateUI.includes("<img src=x"),"No raw HTML from spreadsheet must be rendered");
+assert.ok(privateUI.includes("Review synthetic test only"),"Next action should appear");
+
 const manualLock=first.document.getElementById("owner-lock-session");
 assert.ok(manualLock?.handlers.click,"Manual lock must be clickable");
 manualLock.handlers.click();
