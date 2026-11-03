@@ -58,3 +58,7 @@ GitHub Pages remains the front-end host for free. A secure authenticated backend
 See `docs/architecture.md` and `docs/google-workspace-browser-setup.md` for browser OAuth, private auth, read-only sync, Gmail/Make reconciliation, suppression, error handling, and conflict-safe write-back. No paid Make tests or scenario activation are needed to serve this static site.
 
 **Business scope:** custom client-specific automations and integrations. No unrelated product-store projects.
+
+## Security Shield checkpoint (3 November 2026)
+
+The browser-only Google owner reader has metadata-only Gmail permissions, a restrictive CSP, temporary in-memory tokens, manual lock/reset controls and automatic idle locking. These browser safeguards do **not** turn GitHub Pages into a private website. A [JWT-verified, owner-only read-only backend prototype](backend/secure-worker/README.md) was prepared with synthetic tests; it is **not deployed** and holds no live provider credentials. A protected runtime/account and explicit owner authorization are required for real server-side Gmail/Sheets/Make status integration.
