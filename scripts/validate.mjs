@@ -62,5 +62,15 @@ assert.ok(read("assets/owner-live.js").includes("Company Chat Registry"),"Owner 
 assert.ok(read("assets/app.js").includes("chat-launchpad.html?chat="),"Department chat deep links missing");
 
 assert.ok(read("assets/owner-live.js").includes("spreadsheets.readonly"),"Owner reader must use read-only Sheets scope");
+const ownerPage=read("systems/owner-data.html");
+assert.ok(ownerPage.includes('http-equiv="Content-Security-Policy"'),"Owner data page needs local CSP");
+assert.ok(ownerPage.includes('name="referrer" content="no-referrer"'),"Private reader must not leak referring URL");
+assert.ok(ownerPage.includes("connect-src 'self' https://accounts.google.com https://sheets.googleapis.com https://gmail.googleapis.com"),"CSP must restrict data API origins");
+assert.ok(ownerPage.includes("object-src 'none'"),"CSP must disable browser plugins");
+assert.ok(read("assets/owner-live.js").includes("auth/gmail.metadata"),"Gmail reader must use metadata-only scope");
+assert.ok(!read("assets/owner-live.js").includes("auth/gmail.readonly"),"Disallow broad Gmail read scope");
+assert.ok(read("assets/owner-live.js").includes("owner-lock-session"),"Owner reader needs manual session lock");
+assert.ok(read("assets/owner-live.js").includes("15*60*1000"),"Owner reader needs 15-minute idle lock");
+
 assert.ok(!read("assets/owner-live.js").includes("localStorage.setItem(\"googleAccessToken\""),"OAuth token cannot be stored");
 console.log("PASS: 18 routes, 7 core chat roles, 2 specialist roles; all 9 newly created and instructed per owner, 9 source instructions and read-only chat registry");
