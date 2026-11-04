@@ -104,6 +104,28 @@ function managementSnapshot(){
  const important=unresolved.filter(r=>String(r[7]||"").toUpperCase()==="P0");
  return {chats,verified,handoffs,unresolved,important};
 }
+
+function connectionTestPrompt(chatNo){
+ const ix=sheets.findIndex(x=>x.name==="Company Chat Registry"),rows=state.rows?.[ix]||[];
+ if(!/^0[0-8]$/.test(chatNo))return "";
+ const record=rows.find(r=>String(r[0]||"").trim()===chatNo);
+ if(!record)return "";
+ const sheetRow=rows.indexOf(record)+1,role=String(record[1]||"Chat "+chatNo);
+ return [
+  "ONE-TIME VAVE AUTOMATIONS SHARED-CRM CONNECTION TEST — "+role,
+  "This is the EXISTING Project conversation. Do not create a new chat. Do not contact a business.",
+  "Use the connected Google Sheets/Drive tool with the private master CRM:",
+  "https://docs.google.com/spreadsheets/d/"+SHEET_ID+"/edit",
+  "1. Read Company Chat Registry A"+sheetRow+":O"+sheetRow+" and verify that its Chat # equals "+chatNo+".",
+  "2. Read Department Handoff Queue A1:L10. Confirm DEMO-001 remains DEMO ONLY. Identify real task IDs assigned to "+chatNo+" without changing their status.",
+  "3. Read at least one relevant role source tab listed in your Registry Sources-to-read column, using exact spreadsheet metadata. Avoid broad, unnecessary scans.",
+  "4. ONLY if all three reads worked, edit Company Chat Registry cell M"+sheetRow+" (Last chat sync verified). Set its text to: '2026-11-04 — Chat "+chatNo+": Google Sheets source read successful; tested Registry, Handoff Queue and one role source; verified own M"+sheetRow+" readback. TEST ONLY — no external action.'",
+  "5. Read M"+sheetRow+" again to verify the exact saved text. If any access or write fails, leave M"+sheetRow+" unchanged or explain precisely what failed. Never claim success without readback.",
+  "Do not alter any other cell, including DEMO-001 or existing handoff status. Do not send emails/DMs, run Make, publish private info or change client stages.",
+  "Report: access PASS/FAIL, source tab checked, real queue IDs for this chat, M"+sheetRow+" write/readback PASS/FAIL, and blockers. Do not claim other chats communicate automatically."
+ ].join("\n");
+}
+
 function renderManagementOverview(){
  const q=managementSnapshot();
  let html='<section class="owner-management" aria-label="Private management overview"><div class="owner-management-heading"><span class="eyebrow">PRIVATE · SOURCE-BACKED COMPANY VIEW</span><h4>Management overview</h4><p>One place to see department handoffs and work needing review. Updated when you reconnect or refresh Google Sheets. Scheduled tasks run separately, not continuously.</p></div>';
@@ -120,6 +142,12 @@ function renderManagementOverview(){
  html+='<ul class="owner-management-departments">'+q.chats.map(r=>
   '<li><span>'+esc(r[0]||"")+' · '+esc(r[1]||"Unnamed department")+'</span><small>'+ (String(r[12]||"").trim()?"Test recorded":"Not yet tested")+'</small></li>').join("")+'</ul>';
  html+='</section></div>';
+ const untested=q.chats.filter(r=>!String(r[12]||"").trim());
+ html+='<section class="owner-management-activation" aria-label="Connect remaining department chats"><div><span class="eyebrow">ONE-TIME SETUP</span><h5>Connect the remaining chats</h5><p>Open each EXISTING Project chat, paste its copied connection test, and let that chat verify its own access. This is a manual one-time step—not automatic inter-chat messaging.</p></div>';
+ if(!untested.length)html+='<p>All nine chats have a recorded source-access test. No further setup messages needed.</p>';
+ else html+='<div class="owner-management-activate-list">'+untested.map(r=>
+ '<div class="owner-management-activate-row"><span>'+esc(r[0]||"")+' · '+esc(r[1]||"")+'</span><button type="button" class="outline-button" data-connect-chat="'+esc(r[0]||"")+'">Copy connection test</button></div>').join("")+'</div>';
+ html+='</section>';
  html+='<div class="owner-management-footer"><span>'+q.unresolved.length+' HQ change requests remain unresolved in the private queue; '+q.important.length+' are marked P0.</span><button type="button" class="outline-button" data-dataset="HQ Change Queue">Review changes</button></div>';
  html+='<p class="owner-count">This is a private, read-only view of Google Sheets. No messages, client contact, Make runs or CRM edits happen when you open it. Work does not automatically transfer between chats.</p></section>';
  return html;
@@ -221,6 +249,17 @@ const client=window.google.accounts.oauth2.initTokenClient({
 }
 function updateBoard(){const board=document.getElementById("live-board");if(board){board.innerHTML=renderBoard();attachBoard()}}
 function attachBoard(){
+document.querySelectorAll("#owner-live-root [data-connect-chat]").forEach(b=>b.addEventListener("click",()=>{
+ const prompt=connectionTestPrompt(String(b.dataset.connectChat||""));
+ if(!prompt){banner("Connection test is unavailable until the private registry is loaded.","warn");return}
+ if(typeof navigator==="undefined"||!navigator.clipboard?.writeText){
+  banner("Clipboard access is unavailable here. Use the shared connection-test instructions from this chat.","warn");return
+ }
+ navigator.clipboard.writeText(prompt).then(()=>{
+  b.textContent="Copied — paste into existing chat";
+  banner("Connection test copied. Open that EXISTING Project chat and paste it there; its own readback will record the result.","success");
+ }).catch(()=>banner("Clipboard permission was denied. Try using the existing Project chat directly.","warn"));
+}));
 document.querySelectorAll("#owner-live-root [data-dataset]").forEach(b=>b.addEventListener("click",()=>{state.selected=b.dataset.dataset;state.filter="";try{if(sheets.some(x=>x.name===state.selected)||state.selected==="Management overview")sessionStorage.setItem("vave-google-last-dataset",state.selected)}catch(e){}updateBoard()}));
 document.getElementById("owner-filter")?.addEventListener("input",e=>{const value=e.target.value,pos=e.target.selectionStart;state.filter=value;updateBoard();const search=document.getElementById("owner-filter");search?.focus();search?.setSelectionRange(pos,pos)});
 document.getElementById("owner-refresh")?.addEventListener("click",()=>state.selected==="Gmail Inbox"?refreshGmail():refreshSheets());
