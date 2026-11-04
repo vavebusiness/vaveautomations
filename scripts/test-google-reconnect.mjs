@@ -5,7 +5,7 @@ const source=readFileSync(new URL("../assets/owner-live.js",import.meta.url),"ut
 const CLIENT_ID="0123456789-example.apps.googleusercontent.com";
 const fakeToken="TEST_NON_REAL_OAUTH_TOKEN";
 const storage=new Map([["vave-google-oauth-client-id",CLIENT_ID]]);
-function launch(){
+function launch(initialView="Department Handoff Queue"){
  let html="",renderCount=0;
  const elements=new Map();
  const oauthRequests=[];
@@ -39,7 +39,7 @@ function launch(){
  }}};
  const window={google,addEventListener(){},matchMedia:()=>({matches:false})};
  const sessionStorage={
- getItem(k){return k==="vave-google-last-dataset"?"Department Handoff Queue":null},
+ getItem(k){return k==="vave-google-last-dataset"?initialView:null},
  setItem(){},removeItem(){}
 };
  const localStorage={
@@ -52,7 +52,13 @@ function launch(){
    fetch:async (_url,opts)=>{
      assert.equal(opts.headers.Authorization,"Bearer "+fakeToken);
      return {ok:true,json:async()=>({valueRanges:Array.from({length:13},(_,i)=>({
-      values:i===6?[
+      values:i===5?[
+       ["Chat #","Department","Workstream","Type","Setup state","Role","Purpose","Sources","Handoff","HQ Page","Brief","Link","Verified"],
+       ...Array.from({length:9},(_,n)=>[String(n).padStart(2,"0"),"Department "+n,"Workstream","Core","Instructions sent","","","","","","","",n===2||n===7?"Read/write test recorded":""])
+      ]:i===3?[
+       ["Request ID","Created","Origin","Department","Area","Description","Class","Priority","Risk","Status","Approval"],
+       ["HQ-T1","2026-11-04","Test","08","UI","Private dashboard","UI","P0","Low","In review",""]
+      ]:i===6?[
        ["Task ID","Related CRM record","From chat","To chat","What happened","What to do next","Responsible chat","Status","Review date","Evidence / source link","Last checked","Notes"],
        ["DEMO-001","training","01","02","A fake training task","Do nothing","02","DEMO ONLY","2020-01-01"],
        ["TEST-SAMPLE-123","test","01 — Acquisition","02 — Sales","<img src=x onerror=alert(1)>","Review synthetic test only","02 — Sales","Blocked","2020-01-01"]
@@ -84,6 +90,21 @@ assert.ok(privateUI.includes("1 open · 1 blocked · 1 overdue"),"Handoff counts
 assert.ok(privateUI.includes("&lt;img"),"Untrusted spreadsheet text must be escaped");
 assert.ok(!privateUI.includes("<img src=x"),"No raw HTML from spreadsheet must be rendered");
 assert.ok(privateUI.includes("Review synthetic test only"),"Next action should appear");
+
+const management=launch("Management overview");
+const overviewReconnect=management.document.getElementById("quick-reconnect-sheets");
+assert.ok(overviewReconnect?.handlers.click,"Management session must be connectable with existing Google OAuth");
+overviewReconnect.handlers.click();
+await new Promise(resolve=>setImmediate(resolve));
+const overview=management.document.getElementById("live-board")?.innerHTML||"";
+assert.ok(overview.includes("Management overview"),"Private management summary must render after login");
+assert.ok(overview.includes("Chat access tested"),"Verified-chat metric must display");
+assert.ok(overview.includes("9</strong><span>Chats registered"),"Count registered chats from live CRM");
+assert.ok(overview.includes("2</strong><span>Chat access tested"),"Count only independently verified chats");
+assert.ok(overview.includes("TEST-SAMPLE-123"),"Active handoffs should appear in management summary");
+assert.ok(!overview.includes("DEMO-001"),"DEMO ONLY must never appear in active management summary");
+assert.ok(overview.includes("Priority HQ changes"),"High-priority HQ change metric must display");
+assert.ok(!overview.includes(fakeToken),"Tokens must never appear in management summary");
 
 const manualLock=first.document.getElementById("owner-lock-session");
 assert.ok(manualLock?.handlers.click,"Manual lock must be clickable");
