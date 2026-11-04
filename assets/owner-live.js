@@ -111,6 +111,7 @@ function connectionTestPrompt(chatNo){
  const record=rows.find(r=>String(r[0]||"").trim()===chatNo);
  if(!record)return "";
  const sheetRow=rows.indexOf(record)+1,role=String(record[1]||"Chat "+chatNo);
+ const now=new Date(),stamp=[now.getFullYear(),String(now.getMonth()+1).padStart(2,"0"),String(now.getDate()).padStart(2,"0")].join("-");
  return [
   "ONE-TIME VAVE AUTOMATIONS SHARED-CRM CONNECTION TEST — "+role,
   "This is the EXISTING Project conversation. Do not create a new chat. Do not contact a business.",
@@ -119,7 +120,7 @@ function connectionTestPrompt(chatNo){
   "1. Read Company Chat Registry A"+sheetRow+":O"+sheetRow+" and verify that its Chat # equals "+chatNo+".",
   "2. Read Department Handoff Queue A1:L10. Confirm DEMO-001 remains DEMO ONLY. Identify real task IDs assigned to "+chatNo+" without changing their status.",
   "3. Read at least one relevant role source tab listed in your Registry Sources-to-read column, using exact spreadsheet metadata. Avoid broad, unnecessary scans.",
-  "4. ONLY if all three reads worked, edit Company Chat Registry cell M"+sheetRow+" (Last chat sync verified). Set its text to: '2026-11-04 — Chat "+chatNo+": Google Sheets source read successful; tested Registry, Handoff Queue and one role source; verified own M"+sheetRow+" readback. TEST ONLY — no external action.'",
+  "4. ONLY if all three reads worked, edit Company Chat Registry cell M"+sheetRow+" (Last chat sync verified). Set its text to: '"+stamp+" — Chat "+chatNo+": Google Sheets source read successful; tested Registry, Handoff Queue and one role source; verified own M"+sheetRow+" readback. TEST ONLY — no external action.'",
   "5. Read M"+sheetRow+" again to verify the exact saved text. If any access or write fails, leave M"+sheetRow+" unchanged or explain precisely what failed. Never claim success without readback.",
   "Do not alter any other cell, including DEMO-001 or existing handoff status. Do not send emails/DMs, run Make, publish private info or change client stages.",
   "Report: access PASS/FAIL, source tab checked, real queue IDs for this chat, M"+sheetRow+" write/readback PASS/FAIL, and blockers. Do not claim other chats communicate automatically."
