@@ -517,3 +517,29 @@ a,button,select{touch-action:manipulation}
 .owner-handoff-item p b,.owner-handoff-foot b{color:var(--text)}
 .owner-handoff-foot{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;color:var(--muted);border-top:1px solid var(--stroke);padding-top:10px}
 @media(max-width:600px){.owner-handoff-shortcut{flex-direction:column;align-items:stretch}.owner-handoff-shortcut button{width:100%}.owner-handoff-totals{width:100%}.owner-handoff-totals span{flex:1;min-width:0}}
+
+/* Private management view; rendered only with an authorized Google Sheets session. */
+.owner-management{display:grid;gap:18px}
+.owner-management-heading{display:grid;gap:5px}
+.owner-management-heading h4{font-size:23px;letter-spacing:-.035em;margin:4px 0}
+.owner-management-heading p{font-size:13px;line-height:1.6;color:var(--muted);max-width:650px;margin:0}
+.owner-management-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.owner-management-metric{display:grid;gap:6px;background:var(--surface2);border:1px solid var(--stroke);border-radius:16px;padding:15px;min-width:0}
+.owner-management-metric strong{font-size:26px;line-height:1;font-variant-numeric:tabular-nums;color:var(--text)}
+.owner-management-metric span{font-size:11px;line-height:1.4;color:var(--muted)}
+.owner-management-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:start}
+.owner-management-panel{padding:16px;border:1px solid var(--stroke);background:var(--surface2);border-radius:16px;min-width:0}
+.owner-management-panel-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:15px}
+.owner-management-panel-top h5{margin:0;font-size:14px;font-weight:750}
+.owner-management-panel>p{font-size:12px;color:var(--muted);line-height:1.6}
+.owner-management-items,.owner-management-departments{display:grid;gap:10px;list-style:none;padding:0;margin:0}
+.owner-management-items li{display:grid;gap:4px;padding:10px 0;border-bottom:1px solid var(--stroke);overflow-wrap:anywhere}
+.owner-management-items li:last-child{border-bottom:0}
+.owner-management-items strong{font-size:12px}
+.owner-management-items span,.owner-management-items small{font-size:12px;line-height:1.4;color:var(--muted)}
+.owner-management-departments li{display:flex;justify-content:space-between;align-items:start;gap:8px;border-bottom:1px solid var(--stroke);padding:7px 0;font-size:12px}
+.owner-management-departments li:last-child{border-bottom:0}
+.owner-management-departments span{min-width:0;overflow-wrap:anywhere}
+.owner-management-departments small{color:var(--muted);white-space:nowrap}
+.owner-management-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:13px 15px;border:1px solid var(--stroke);border-radius:14px;font-size:12px;color:var(--muted)}
+@media(max-width:760px){.owner-management-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.owner-management-grid{grid-template-columns:minmax(0,1fr)}.owner-management-footer{flex-direction:column;align-items:stretch}}
