@@ -29,7 +29,8 @@ function launch(initialView="Department Handoff Queue"){
    },
    querySelectorAll(selector){
      if(!String(selector).includes("[data-connect-chat]"))return [];
-     return [...html.matchAll(/data-connect-chat="(0[0-8])"/g)].map(match=>{
+     const visibleMarkup=elements.get("live-board")?.innerHTML||html;
+     return [...visibleMarkup.matchAll(/data-connect-chat="(0[0-8])"/g)].map(match=>{
        const id=match[1];
        if(!copyButtons.has(id))copyButtons.set(id,{
          dataset:{connectChat:id},textContent:"",handlers:{},
