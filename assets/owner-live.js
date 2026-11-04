@@ -24,13 +24,13 @@ const sheets=[
  {name:"Sales Playbook",range:"'Sales Playbook'!A1:H150",header:0},
  {name:"200 Lead Launch Board",range:"'200 Lead Launch Board'!A1:J240",header:0}
 ];
-const state={clientId:"",googleReady:false,sheetsToken:null,gmailToken:null,sheetsUntil:0,gmailUntil:0,rows:null,mail:[],selected:"Dashboard",filter:"",lastSheets:0,lastGmail:0,busySheets:false,busyGmail:false,notice:"",noticeType:"neutral"};
+const state={clientId:"",googleReady:false,sheetsToken:null,gmailToken:null,sheetsUntil:0,gmailUntil:0,rows:null,mail:[],selected:"Management overview",filter:"",lastSheets:0,lastGmail:0,busySheets:false,busyGmail:false,notice:"",noticeType:"neutral"};
 const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function hasSheets(){return !!state.sheetsToken&&Date.now()<state.sheetsUntil-30000}
 function hasGmail(){return !!state.gmailToken&&Date.now()<state.gmailUntil-30000}
 function readClientId(){try{return localStorage.getItem("vave-google-oauth-client-id")||""}catch(e){return""}}
 state.clientId=readClientId();
-try{const rememberedView=sessionStorage.getItem("vave-google-last-dataset");if(sheets.some(x=>x.name===rememberedView))state.selected=rememberedView}catch(e){}
+try{const rememberedView=sessionStorage.getItem("vave-google-last-dataset");if(sheets.some(x=>x.name===rememberedView)||rememberedView==="Management overview")state.selected=rememberedView}catch(e){}
 
 const GRANT_KEY={sheets:"vave-google-sheets-granted",gmail:"vave-google-gmail-granted"};
 function hadGrant(which){try{return localStorage.getItem(GRANT_KEY[which])==="1"}catch(e){return false}}
@@ -93,13 +93,47 @@ function renderHandoffShortcut(){
  return '<div class="owner-handoff-shortcut"><div><strong>Department handoffs</strong><span>'+q.open.length+' open · '+q.blocked+' blocked · '+q.overdue+' overdue</span></div><button type="button" class="outline-button" data-dataset="Department Handoff Queue">View handoff inbox</button></div>';
 }
 
+
+function managementSnapshot(){
+ const getRows=name=>state.rows?.[sheets.findIndex(x=>x.name===name)]||[];
+ const chats=getRows("Company Chat Registry").slice(1).filter(r=>/^(0[0-8])$/.test(String(r[0]||"").trim()));
+ const verified=chats.filter(r=>String(r[12]||"").trim());
+ const handoffs=handoffSnapshot(getRows("Department Handoff Queue"));
+ const changeRows=getRows("HQ Change Queue").slice(1).filter(r=>String(r[0]||"").trim());
+ const unresolved=changeRows.filter(r=>!["shipped","done","cancelled","canceled","rejected"].includes(String(r[9]||"").trim().toLowerCase()));
+ const important=unresolved.filter(r=>String(r[7]||"").toUpperCase()==="P0");
+ return {chats,verified,handoffs,unresolved,important};
+}
+function renderManagementOverview(){
+ const q=managementSnapshot();
+ let html='<section class="owner-management" aria-label="Private management overview"><div class="owner-management-heading"><span class="eyebrow">PRIVATE · SOURCE-BACKED COMPANY VIEW</span><h4>Management overview</h4><p>One place to see department handoffs and work needing review. Updated when you reconnect or refresh Google Sheets. Scheduled tasks run separately, not continuously.</p></div>';
+ html+='<div class="owner-management-metrics">'+[
+  [q.chats.length,"Chats registered"],[q.verified.length,"Chat access tested"],[q.handoffs.open.length,"Open handoffs"],[q.important.length,"Priority HQ changes"]
+ ].map(([value,label])=>'<div class="owner-management-metric"><strong>'+value+'</strong><span>'+esc(label)+'</span></div>').join("")+'</div>';
+ html+='<div class="owner-management-grid"><section class="owner-management-panel"><div class="owner-management-panel-top"><h5>Work for departments</h5><button class="outline-button" type="button" data-dataset="Department Handoff Queue">View all</button></div>';
+ if(!q.handoffs.open.length)html+='<p>No active handoffs in the shared queue.</p>';
+ else html+='<ul class="owner-management-items">'+q.handoffs.open.slice(0,5).map(item=>
+   '<li><strong>'+esc(item.id)+'</strong><span>'+esc(item.owner||item.to||"No owner")+'</span><span>'+esc(item.next||"Next action not entered")+'</span>'+
+   '<small>'+esc(item.status||"No status")+' · Due '+esc(item.due||"not set")+'</small></li>').join("")+'</ul>';
+ html+='</section><section class="owner-management-panel"><div class="owner-management-panel-top"><h5>Department check</h5><button class="outline-button" type="button" data-dataset="Company Chat Registry">Open registry</button></div>';
+ html+='<p>'+q.verified.length+' of '+q.chats.length+' chats have an independent shared-record test recorded. Unverified does not mean disconnected.</p>';
+ html+='<ul class="owner-management-departments">'+q.chats.map(r=>
+  '<li><span>'+esc(r[0]||"")+' · '+esc(r[1]||"Unnamed department")+'</span><small>'+ (String(r[12]||"").trim()?"Test recorded":"Not yet tested")+'</small></li>').join("")+'</ul>';
+ html+='</section></div>';
+ html+='<div class="owner-management-footer"><span>'+q.unresolved.length+' HQ change requests remain unresolved in the private queue; '+q.important.length+' are marked P0.</span><button type="button" class="outline-button" data-dataset="HQ Change Queue">Review changes</button></div>';
+ html+='<p class="owner-count">This is a private, read-only view of Google Sheets. No messages, client contact, Make runs or CRM edits happen when you open it. Work does not automatically transfer between chats.</p></section>';
+ return html;
+}
+
 function renderBoard(){
 if(!state.rows&&!state.mail.length)return '<div class="owner-empty"><div class="owner-empty-icon">▦</div><h3>No live records loaded</h3><p>Connect Google Sheets to read authorized private CRM data into this browser. The public snapshot elsewhere on the website remains unchanged.</p></div>';
-const tabs=(state.rows?sheets.map(x=>x.name):[]).concat(state.mail.length?["Gmail Inbox"]:[]);
+const tabs=(state.rows?["Management overview",...sheets.map(x=>x.name)]:[]).concat(state.mail.length?["Gmail Inbox"]:[]);
 const active=tabs.includes(state.selected)?state.selected:tabs[0];
 state.selected=active;
 let body='';
-if(active==="Gmail Inbox"){
+if(active==="Management overview"){
+body=renderManagementOverview();
+}else if(active==="Gmail Inbox"){
 const list=state.mail.filter(x=>[x.from,x.subject,x.date].join(" ").toLowerCase().includes(state.filter.toLowerCase())).slice(0,MAX_DISPLAY);
 body='<div class="owner-table-wrap"><table class="owner-table"><thead><tr><th>From</th><th>Subject</th><th>Date</th></tr></thead><tbody>'+list.map(x=>'<tr><td>'+esc(x.from)+'</td><td>'+esc(x.subject)+'</td><td>'+esc(x.date)+'</td></tr>').join("")+'</tbody></table></div>';
 }else if(active==="Department Handoff Queue"){
@@ -137,7 +171,7 @@ const val=Array.isArray(j.valueRanges)?j.valueRanges:[];
 if(val.length!==sheets.length)throw Error("Expected "+sheets.length+" source tabs but received "+val.length+".");
 state.rows=val.map(x=>Array.isArray(x.values)?x.values:[]);
 state.lastSheets=Date.now();
-state.selected=state.selected==="Gmail Inbox"?"Gmail Inbox":sheets.some(x=>x.name===state.selected)?state.selected:"Dashboard";
+state.selected=state.selected==="Gmail Inbox"?"Gmail Inbox":(sheets.some(x=>x.name===state.selected)||state.selected==="Management overview")?state.selected:"Management overview";
 banner("Sheets connected: "+val.length+" private tabs loaded; no data written or uploaded.","success");
 }catch(e){banner("Sheets read failed: "+String(e.message||e)+". Check your Google Cloud API settings, sheet permissions, and OAuth scope.","error")}
 finally{state.busySheets=false;updateBoard()}
@@ -187,7 +221,7 @@ const client=window.google.accounts.oauth2.initTokenClient({
 }
 function updateBoard(){const board=document.getElementById("live-board");if(board){board.innerHTML=renderBoard();attachBoard()}}
 function attachBoard(){
-document.querySelectorAll("#owner-live-root [data-dataset]").forEach(b=>b.addEventListener("click",()=>{state.selected=b.dataset.dataset;state.filter="";try{if(sheets.some(x=>x.name===state.selected))sessionStorage.setItem("vave-google-last-dataset",state.selected)}catch(e){}updateBoard()}));
+document.querySelectorAll("#owner-live-root [data-dataset]").forEach(b=>b.addEventListener("click",()=>{state.selected=b.dataset.dataset;state.filter="";try{if(sheets.some(x=>x.name===state.selected)||state.selected==="Management overview")sessionStorage.setItem("vave-google-last-dataset",state.selected)}catch(e){}updateBoard()}));
 document.getElementById("owner-filter")?.addEventListener("input",e=>{const value=e.target.value,pos=e.target.selectionStart;state.filter=value;updateBoard();const search=document.getElementById("owner-filter");search?.focus();search?.setSelectionRange(pos,pos)});
 document.getElementById("owner-refresh")?.addEventListener("click",()=>state.selected==="Gmail Inbox"?refreshGmail():refreshSheets());
 document.getElementById("owner-disconnect")?.addEventListener("click",()=>{
