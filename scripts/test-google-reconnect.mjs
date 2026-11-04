@@ -8,6 +8,7 @@ const storage=new Map([["vave-google-oauth-client-id",CLIENT_ID]]);
 function launch(initialView="Department Handoff Queue"){
  let html="",renderCount=0;
  const elements=new Map();
+ const copyButtons=new Map(),copyText=[];
  const oauthRequests=[];
  const root={};
  Object.defineProperty(root,"innerHTML",{get:()=>html,set:x=>{html=String(x);elements.clear();renderCount++}});
@@ -26,7 +27,17 @@ function launch(initialView="Department Handoff Queue"){
      });
      return elements.get(id);
    },
-   querySelectorAll(){return []}
+   querySelectorAll(selector){
+     if(!String(selector).includes("[data-connect-chat]"))return [];
+     return [...html.matchAll(/data-connect-chat="(0[0-8])"/g)].map(match=>{
+       const id=match[1];
+       if(!copyButtons.has(id))copyButtons.set(id,{
+         dataset:{connectChat:id},textContent:"",handlers:{},
+         addEventListener(name,fn){this.handlers[name]=fn}
+       });
+       return copyButtons.get(id);
+     });
+   }
  };
  const google={accounts:{oauth2:{
    initTokenClient(config){
@@ -47,8 +58,9 @@ function launch(initialView="Department Handoff Queue"){
   setItem(k,v){storage.set(k,String(v))},
   removeItem(k){storage.delete(k)}
  };
+ const navigator={clipboard:{writeText:async text=>{copyText.push(text)}}};
  const context=vm.createContext({
-   document,window,localStorage,sessionStorage,URL,URLSearchParams,Date,console,setInterval(){return 1},clearInterval(){},
+   document,window,navigator,localStorage,sessionStorage,URL,URLSearchParams,Date,console,setInterval(){return 1},clearInterval(){},
    fetch:async (_url,opts)=>{
      assert.equal(opts.headers.Authorization,"Bearer "+fakeToken);
      return {ok:true,json:async()=>({valueRanges:Array.from({length:13},(_,i)=>({
@@ -67,7 +79,7 @@ function launch(initialView="Department Handoff Queue"){
    }
  });
  vm.runInContext(source,context,{filename:"assets/owner-live.js"});
- return {root,oauthRequests,document,renderCount:()=>renderCount};
+ return {root,oauthRequests,document,copyButtons,copyText,renderCount:()=>renderCount};
 }
 assert.ok(!storage.has("vave-google-sheets-granted"));
 const first=launch();
@@ -105,6 +117,23 @@ assert.ok(overview.includes("TEST-SAMPLE-123"),"Active handoffs should appear in
 assert.ok(!overview.includes("DEMO-001"),"DEMO ONLY must never appear in active management summary");
 assert.ok(overview.includes("Priority HQ changes"),"High-priority HQ change metric must display");
 assert.ok(!overview.includes(fakeToken),"Tokens must never appear in management summary");
+assert.ok(overview.includes('data-connect-chat="00"'),"Untested chat 00 must have a connection-test button");
+assert.ok(overview.includes('data-connect-chat="01"'),"Untested chat 01 must have a connection-test button");
+assert.ok(!overview.includes('data-connect-chat="02"'),"Already verified chat 02 must not have an activation button");
+assert.ok(!overview.includes('data-connect-chat="07"'),"Already verified chat 07 must not have an activation button");
+assert.equal(management.copyButtons.size,7,"Exactly seven unverified chats must have activation buttons");
+const activation=management.copyButtons.get("01");
+assert.ok(activation?.handlers.click,"Activation button must have a click listener");
+activation.handlers.click();
+await new Promise(resolve=>setImmediate(resolve));
+assert.equal(management.copyText.length,1,"Click must write a single test prompt to browser clipboard");
+const copiedPrompt=management.copyText[0];
+assert.ok(copiedPrompt.includes("A3:O3"),"Chat 01 must target its exact private registry row");
+assert.ok(copiedPrompt.includes("M3"),"Chat 01 must verify only its own column M cell");
+assert.ok(copiedPrompt.includes("DEMO-001 remains DEMO ONLY"),"Practice task must stay excluded from live work");
+assert.ok(copiedPrompt.includes("Do not send emails/DMs, run Make"),"Copied test must forbid real-world provider actions");
+assert.ok(!copiedPrompt.includes(fakeToken),"Activation message must not contain private OAuth tokens");
+
 
 const manualLock=first.document.getElementById("owner-lock-session");
 assert.ok(manualLock?.handlers.click,"Manual lock must be clickable");
