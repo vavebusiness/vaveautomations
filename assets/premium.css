@@ -553,3 +553,74 @@ a,button,select{touch-action:manipulation}
 .owner-management-activate-row span{min-width:0;overflow-wrap:anywhere;font-size:12px}
 .owner-management-activate-row button{flex-shrink:0;white-space:nowrap;font-size:11px}
 @media(max-width:520px){.owner-management-activate-row{align-items:stretch;flex-direction:column}.owner-management-activate-row button{width:100%}}
+
+
+/* VAVE HQ / Midnight Blue Refinement / 2026-11-07 */
+:root{
+  --bg:#091121;--side:#0d1628;--surface:#122035;--surface2:#182940;
+  --hover:#233853;--stroke:#2c405c;--stroke-light:#23334b;
+  --text:#f4f7ff;--muted:#b0bed2;--quiet:#8b9fb9;
+  --accent:#8fbaff;--accent-strong:#c0d9ff;
+  --red:#ee9195;--amber:#e7b980;--green:#80d4b5;
+}
+body{background:var(--bg);color:var(--text)}
+body:before{
+  background:radial-gradient(ellipse 44% 32% at 95% -5%,rgba(75,123,205,.18),transparent 76%),
+             radial-gradient(ellipse 35% 30% at 0 85%,rgba(32,84,145,.11),transparent 83%);
+}
+.sidebar{background:linear-gradient(160deg,#101b30,#0a1425 64%,#091120);border-right-color:#293a51}
+.brand-symbol{background:linear-gradient(145deg,#203958,#0e1b30);border-color:#426187}
+.brand-symbol span{color:var(--accent-strong)}
+.workspace-indicator{background:linear-gradient(112deg,#1b2c44,#152338);border-color:#29425c;color:#cad6e7}
+.topbar{background:rgba(10,20,36,.84);border-bottom-color:#2a3c53}
+.breadcrumbs>span:first-of-type{background:#203452;border-color:#42618a;color:#c4dcff}
+.nav-link:hover{background:#1b2e48;color:#f4f7ff}
+.nav-link.active{background:linear-gradient(100deg,rgba(71,123,203,.25),rgba(39,73,121,.12));border-color:rgba(137,185,255,.3);color:#d4e5ff;box-shadow:inset 2px 0 #90bfff,0 3px 14px rgba(0,0,0,.08)}
+.nav-symbol,.nav-text small{color:#97b3d4}
+.nav-link.active .nav-symbol{color:#b9d6ff}
+.hero-panel{
+  background:radial-gradient(ellipse 58% 85% at 100% 0%,rgba(66,124,216,.25),transparent 80%),
+             radial-gradient(ellipse 42% 70% at 0 100%,rgba(44,81,139,.21),transparent 84%),
+             linear-gradient(125deg,#172740,#101d32 70%);
+  border-color:#3b5577;
+}
+.hero-light{border-color:rgba(144,189,255,.24);box-shadow:0 0 0 65px rgba(95,150,222,.045),0 0 0 130px rgba(95,150,222,.017)}
+.hero-outcome{background:rgba(13,28,48,.8);border-left-color:var(--accent)}
+.hero-outcome span{color:#b3c9e8}
+.action-button{background:linear-gradient(135deg,#b9d7ff,#85b5f6);box-shadow:0 8px 25px rgba(65,126,211,.18),inset 0 1px 0 rgba(255,255,255,.35);color:#0b213b!important}
+.action-button:hover{box-shadow:0 14px 30px rgba(62,124,211,.26)}
+.outline-button{color:#c8ddff!important;border-color:#446286;background:rgba(27,48,77,.36)}
+.outline-button:hover{background:#233d60;border-color:#6589bc}
+.tab.active{background:linear-gradient(0deg,rgba(119,173,246,.12),transparent);color:#bcd7ff;border-color:#95c1ff}
+.page-header .eyebrow,.section-head .eyebrow,.hero-panel .eyebrow,.card .eyebrow{color:#a9c9f4}
+.metric,.card,.feature-card,.resource-card,.route,.task-row,.workflow-card,.process-step,.roadmap-detail,.table-wrap,.stage-mini{
+  background:linear-gradient(165deg,rgba(25,42,65,.97),rgba(17,29,47,.98));
+  border-color:rgba(161,196,241,.14);
+}
+.card:hover,.resource-card:hover,.metric:hover,.feature-card:hover,.route:hover,.workflow-card:hover{border-color:rgba(153,191,245,.36)}
+.metric strong,.feature-card h3{color:#f6f9ff}
+.metric small,.card p,.feature-card p{color:#a9bad0}
+.feature-card.contrast{background:radial-gradient(ellipse at 100% 0,rgba(72,124,206,.2),transparent 70%),#15243b}
+.timeline-steps span{background:#2a4161;color:#c8ddff}
+.notice{background:linear-gradient(105deg,rgba(24,45,76,.85),rgba(16,28,47,.88));border-color:rgba(145,188,245,.25);border-left-color:#8db8f5;color:#c2d0e3}
+.notice strong{color:#d5e6ff}
+.process-step .step-number,.step-number{color:#a5c9ff}
+.freshness{display:flex;align-items:center;gap:10px;padding:11px 14px;margin:17px 0 24px;border-radius:12px;background:rgba(29,43,64,.74);border:1px solid rgba(231,185,128,.24);color:#c2cad6;line-height:1.5}
+.freshness strong{color:#f3c791;font-weight:800}
+.principle-banner{display:grid;grid-template-columns:112px minmax(0,1fr);align-items:start;gap:25px;margin:18px 0 29px;padding:26px 29px;border:1px solid rgba(141,186,255,.35);border-radius:22px;background:linear-gradient(130deg,rgba(29,57,96,.94),rgba(17,31,53,.98) 66%);box-shadow:0 12px 36px rgba(0,0,0,.14),inset 0 1px 0 rgba(255,255,255,.065)}
+.principle-number{display:flex;flex-direction:column;gap:4px;align-items:flex-start;border-right:1px solid rgba(188,215,255,.23);padding-right:22px}
+.principle-number span{font:800 clamp(40px,5vw,64px)/1 "Manrope",system-ui,sans-serif;letter-spacing:-.08em;color:#c8dfff}
+.principle-number small{font-size:10px;font-weight:800;letter-spacing:1.5px;color:#9db9dc}
+.principle-copy{min-width:0}
+.principle-copy .eyebrow{font-size:10px;color:#97c0fa;font-weight:800;letter-spacing:1.8px}
+.principle-copy h3{font-size:clamp(19px,2.2vw,26px);letter-spacing:-.045em;line-height:1.3;margin:10px 0}
+.principle-copy p{color:#b7c9e0;line-height:1.8;font-size:13px;max-width:780px;margin:0 0 19px}
+.principle-steps{display:flex;align-items:center;flex-wrap:wrap;gap:9px}
+.principle-steps span{font-size:11px;font-weight:750;border:1px solid rgba(154,197,251,.28);border-radius:999px;padding:6px 11px;color:#d2e4fc;background:rgba(124,172,229,.10)}
+@media(max-width:740px){
+  .principle-banner{grid-template-columns:minmax(0,1fr);gap:15px;padding:22px 19px}
+  .principle-number{flex-direction:row;gap:12px;align-items:center;border-right:0;border-bottom:1px solid rgba(188,215,255,.23);padding:0 0 13px}
+  .principle-number span{font-size:42px}
+  .principle-steps{gap:7px}
+}
+@media(prefers-reduced-motion:reduce){.principle-banner,.principle-steps span{transition:none;animation:none}}
