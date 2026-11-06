@@ -4,12 +4,20 @@ Live headquarters: https://vavebusiness.github.io/vaveautomations/
 
 A responsive, public-safe operations dashboard for a custom workflow automation business.
 
+## Operating rules (in priority order)
+
+1. **Discovery first — custom automations only.** Ask every business which repetitive, costly or error-prone process it actually needs solved. Understand the tools, workflow, constraints and desired result, then propose a tailored integration. Never pitch a fixed package or identical workflow to all clients.
+2. **Paperless operations.** Prefer digital proposals, approvals, invoices, onboarding and delivery; use legally valid electronic agreements and authorizations when required.
+
+**The existing Make document-to-Sheets prototype is optional technical evidence, not a product to sell to every client.**
+
+
 ## What is actually implemented
 
 - **Seven departments** (00–06) with four subpages each: overview, SOP, work queue, metrics.
 - **Eleven system screens**: opportunity shortlist, animated draggable clients & projects board, management & improvements, local action board, Make workflow registry, nine source database links, reports, integration center roadmap, owner-authorized Google data reader, and **nine-chat coordination launchpad**.
-- **Refined graphite/copper design, accessible scroll and micro-motion, premium kanban interactions, focus-mode navigation, global search, and responsive dashboard layout**.
-- **Sanitized CRM snapshot** at `data/overview.json`; metrics are historical and explicitly not live.
+- **Refined midnight-blue/navy design, accessible scroll and micro-motion, premium kanban interactions, focus-mode navigation, global search, and responsive dashboard layout**.
+- **Sanitized CRM snapshot** at `data/overview.json`; metrics are from November 2, 2026 and explicitly not live, even though the website's copy and visual presentation were reviewed November 7.
 - **Anonymized pipeline shortlist**—private buyer details remain in the master CRM.
 - **Workflow registry scoped to the real independent RentRoll PDF Underwriter and relevant helpers**, all inactive as of the audit.
 - **Local-only action board** with status editing, add-task form and CSV export. No writes back to Sheets.
