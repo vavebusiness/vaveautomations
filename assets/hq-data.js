@@ -1,11 +1,12 @@
 window.HQ_DATA = {
-  "lastReviewed": "2026-11-02",
+  "lastReviewed": "2026-11-07",
   "sourceAsOf": "2026-11-02",
   "confidentiality": "Public-safe operational overview. No contact details, private client correspondence or credentials.",
   "organization": {
     "name": "Vave Automations",
-    "mission": "Identify costly, repetitive work and build custom workflow automations and integrations tailored to verified requirements.",
-    "offering": "Custom Make, n8n, API, AI and Google Workspace integration work; not a fixed one-size-fits-all package.",
+    "mission": "Ask businesses what they actually need, investigate their current operations, then build tailored workflow automations and integrations around verified requirements.",
+    "offering": "Discovery-first, client-specific Make, n8n, API, AI and Google Workspace integration work. No fixed automation packages.",
+    "companyRuleOne": "Every engagement starts by asking the client what repetitive or costly process they want to improve. We learn the tools, workflow, constraints and desired result, and only then propose a custom automation. Our existing prototypes are optional proof of capability, never a fixed product being pushed.",
     "northStar": "First verified, successfully delivered paid client project.",
     "integrity": "Do not count research as demand, messages as clients, or prototypes as customer deployments."
   },
