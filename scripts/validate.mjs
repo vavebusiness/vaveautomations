@@ -32,7 +32,16 @@ for(const page of htmls){
  }
  assert.ok(h.includes('id="app"'),"App mount missing in "+page);
 }
-const allPublic=[...htmls,"assets/app.js","assets/hq-data.js","assets/chat-roles.js","assets/chat-launch.js","assets/style.css","assets/premium.css","assets/motion.js","assets/project-board.js","data/overview.json","README.md"].map(read).join("\n");
+const inquiryPage=read("work-with-us.html");
+const inquiryStyles=read("assets/work-with-us.css");
+assert.ok(inquiryPage.includes('class="wrap hero"'),"Discovery page needs hero");
+assert.ok(inquiryPage.includes('href="assets/work-with-us.css"'),"Discovery stylesheet not linked");
+assert.ok(inquiryPage.includes('mailto:'),"Discovery contact action missing");
+assert.ok(!inquiryPage.includes("<form"),"Public discovery page must not collect data");
+assert.ok(inquiryStyles.includes("@keyframes inquiry-enter"),"Discovery entrance motion missing");
+assert.ok(inquiryStyles.includes("@media(prefers-reduced-motion:reduce)"),"Reduced-motion fallback missing");
+assert.ok(inquiryStyles.includes("@supports(animation-timeline:view())"),"Progressive scroll reveal missing");
+const allPublic=[...htmls,"work-with-us.html","assets/work-with-us.css","assets/app.js","assets/hq-data.js","assets/chat-roles.js","assets/chat-launch.js","assets/style.css","assets/premium.css","assets/motion.js","assets/project-board.js","data/overview.json","README.md"].map(read).join("\n");
 for(const restricted of ["rooxemillions@", "Gumroad", "AIza", "sk-proj-", "ghp_", "Bearer eyJ"]){
  assert.equal(allPublic.includes(restricted),false,"Forbidden public token/project reference: "+restricted);
 }
