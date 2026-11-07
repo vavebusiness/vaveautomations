@@ -12,3 +12,47 @@ section.secondary-section{padding:47px 0 65px;border-top:1px solid rgba(160,192,
 @media(max-width:800px){.hero{grid-template-columns:1fr;padding-top:63px;gap:29px}.cards{grid-template-columns:1fr}.cta{display:block;padding:30px}.cta .primary{margin-top:20px}.hero h1{max-width:690px}.signal{max-width:650px}}
 @media(max-width:500px){.wrap{width:min(100% - 28px,1100px)}.top nav{gap:12px}.top nav a{font-size:12px}.brand .full{font-size:13px}.hero{padding-top:48px}.signal{padding:24px}.cta{margin-bottom:50px}.primary,.secondary{width:100%}footer .wrap{display:block}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* VAVE DISCOVERY MOTION — progressive, CSS-only, no scripts or tracking.
+   Static content remains visible in browsers without scroll timelines. */
+@keyframes inquiry-enter{
+  from{opacity:0;transform:translate3d(0,18px,0)}
+  to{opacity:1;transform:translate3d(0,0,0)}
+}
+@media(prefers-reduced-motion:no-preference){
+  .top{animation:inquiry-enter .65s cubic-bezier(.2,.7,.25,1) both}
+  .hero>div>.eyebrow{animation:inquiry-enter .65s cubic-bezier(.2,.7,.25,1) .08s both}
+  .hero h1{animation:inquiry-enter .75s cubic-bezier(.2,.7,.25,1) .16s both}
+  .hero .lead{animation:inquiry-enter .75s cubic-bezier(.2,.7,.25,1) .25s both}
+  .hero .sublead{animation:inquiry-enter .75s cubic-bezier(.2,.7,.25,1) .33s both}
+  .hero .actions{animation:inquiry-enter .7s cubic-bezier(.2,.7,.25,1) .41s both}
+  .hero>.signal{animation:inquiry-enter .9s cubic-bezier(.2,.7,.25,1) .26s both}
+  .hero>div>.note{animation:inquiry-enter .7s cubic-bezier(.2,.7,.25,1) .48s both}
+
+  .primary,.secondary{transition:background-color .25s ease,border-color .25s ease,box-shadow .3s ease,transform .3s cubic-bezier(.2,.7,.25,1)}
+  .top nav a{transition:color .2s ease}
+  .card,.signal{transition:transform .35s cubic-bezier(.2,.7,.25,1),box-shadow .35s ease,border-color .35s ease}
+
+  /* Scroll-driven reveals only where natively supported; no invisible fallbacks. */
+  @supports(animation-timeline:view()){
+    .secondary-section .section-head,.cards .card,.cta{
+      animation-name:inquiry-enter;
+      animation-duration:1ms;
+      animation-timing-function:linear;
+      animation-fill-mode:both;
+      animation-timeline:view();
+      animation-range:entry 0% cover 24%;
+    }
+    .cards .card:nth-child(2){animation-range:entry 3% cover 29%}
+    .cards .card:nth-child(3){animation-range:entry 6% cover 34%}
+  }
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .primary:hover{transform:translateY(-2px);box-shadow:0 14px 32px rgba(77,141,229,.27)}
+  .secondary:hover{transform:translateY(-2px);border-color:#9dc4f3;box-shadow:0 10px 25px rgba(0,0,0,.15)}
+  .signal:hover{transform:translateY(-3px);border-color:rgba(173,211,255,.47);box-shadow:0 30px 70px rgba(0,0,0,.22)}
+  .cards .card:hover{transform:translateY(-5px);border-color:rgba(171,209,255,.37);box-shadow:0 18px 42px rgba(0,0,0,.2)}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}
