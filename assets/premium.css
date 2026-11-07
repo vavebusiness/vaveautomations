@@ -624,3 +624,158 @@ body:before{
   .principle-steps{gap:7px}
 }
 @media(prefers-reduced-motion:reduce){.principle-banner,.principle-steps span{transition:none;animation:none}}
+
+
+/* VAVE HQ / Unified premium design finish / 2026-11-07 */
+/* Shared, public-safe visual refinements for all eighteen HQ app routes.
+   Maintain the established navy identity; no scripts, external libraries or tracking. */
+:root{
+  --hq-radius-s:12px;
+  --hq-radius-m:16px;
+  --hq-radius-l:22px;
+  --hq-line:rgba(164,198,247,.17);
+  --hq-line-hot:rgba(169,206,255,.41);
+  --hq-glint:rgba(183,216,255,.065);
+  --hq-focus:#b9d9ff;
+  --hq-ease:cubic-bezier(.2,.75,.25,1);
+  --hq-speed-fast:160ms;
+  --hq-speed:260ms;
+}
+::selection{background:#3f6495;color:#fff}
+.page-content{min-width:0}
+.page-header h1{
+  letter-spacing:-.052em;
+  text-wrap:balance;
+  color:#f7faff;
+  text-shadow:0 10px 42px rgba(130,182,248,.055);
+}
+.page-subtitle{max-width:72ch;color:#b2c2d9;line-height:1.75}
+.page-header .eyebrow,.section-head .eyebrow,.hero-panel .eyebrow{
+  font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+}
+.section-head{padding-bottom:13px;border-bottom:1px solid var(--hq-line)}
+.section-head h2{color:#edf5ff;letter-spacing:-.035em}
+.section-head p{color:#a9bdd7}
+.sidebar{scrollbar-color:#405c80 transparent}
+.sidebar .nav-title{color:#94acca;letter-spacing:.16em}
+.nav-link{
+  border:1px solid transparent;
+  transition:background-color var(--hq-speed-fast) ease,border-color var(--hq-speed-fast) ease,color var(--hq-speed-fast) ease,box-shadow var(--hq-speed) var(--hq-ease);
+}
+.nav-link:hover{transform:none;border-color:rgba(151,191,244,.14);background:#1b304c}
+.nav-link.active{
+  background:linear-gradient(110deg,rgba(100,157,236,.21),rgba(53,96,160,.10));
+  border-color:rgba(168,207,255,.32);
+  box-shadow:inset 3px 0 #9bc7ff,0 9px 24px rgba(0,0,0,.11);
+}
+.topbar{box-shadow:0 10px 28px rgba(4,11,25,.15)}
+.topbar .chip{background:#1a2b44;border-color:#385477;color:#c6d9ef}
+.brand-symbol{box-shadow:0 10px 25px rgba(2,9,24,.34),inset 0 1px 0 rgba(214,231,255,.14)}
+.workspace-indicator{box-shadow:inset 0 1px 0 rgba(221,237,255,.05)}
+/* One card geometry for principal overview, role and systems surfaces. */
+.metric,.card,.feature-card,.resource-card,.route,.workflow-card,.process-step,
+.roadmap-detail,.table-wrap,.owner-management-panel,.owner-management-metric,
+.owner-handoff-item,.chat-role-card,.architecture,.management-step{
+  border-color:var(--hq-line);
+  border-radius:var(--hq-radius-m);
+  box-shadow:0 9px 26px rgba(1,8,22,.11),inset 0 1px 0 rgba(220,236,255,.045);
+}
+.metric,.card,.feature-card,.resource-card,.route,.workflow-card,
+.roadmap-detail,.owner-management-panel,.owner-management-metric,
+.owner-handoff-item,.chat-role-card{
+  transition:border-color var(--hq-speed-fast) ease,box-shadow var(--hq-speed) var(--hq-ease),background-color var(--hq-speed) ease;
+}
+@media(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .metric:hover,.card:hover,.feature-card:hover,.resource-card:hover,
+  .route:hover,.workflow-card:hover,.owner-management-panel:hover,
+  .owner-management-metric:hover,.owner-handoff-item:hover,.chat-role-card:hover{
+    border-color:var(--hq-line-hot);
+    box-shadow:0 18px 42px rgba(2,10,26,.26),0 0 0 1px rgba(145,192,250,.045),
+               inset 0 1px 0 rgba(226,239,255,.08);
+  }
+}
+.metric strong,.owner-management-metric strong,.board-stat strong{
+  font-variant-numeric:tabular-nums;letter-spacing:-.055em;
+}
+.resource-card strong,.card h3,.workflow-card h3{color:#f2f7ff}
+.resource-card small,.route p,.roadmap-detail p{color:#acbdd5}
+/* Bring high-visibility legacy copper panels into the same blue design language. */
+.management-hero,.chat-coordination-summary,.board-introduction{
+  background:radial-gradient(ellipse 60% 85% at 100% 0%,rgba(79,140,225,.16),transparent 75%),
+             linear-gradient(125deg,#192b45,#101e33 80%);
+  border-color:rgba(156,194,245,.28);
+  box-shadow:0 20px 55px rgba(1,8,22,.2),inset 0 1px 0 rgba(235,244,255,.06);
+}
+.management-hero:after{border-color:rgba(169,210,255,.14);box-shadow:0 0 0 50px rgba(90,155,240,.025),0 0 0 107px rgba(90,155,240,.008)}
+.chat-coordination-summary{border-radius:var(--hq-radius-l)}
+.chat-source-tag{background:#1d344f;border-color:#3c5b7d;color:#c2d9f3}
+.architecture-layer{
+  background:#1a2e48;border-color:#365676;border-radius:var(--hq-radius-s);
+}
+.architecture-layer.protected{background:#213653;border-color:#5277a3}
+.architecture-layer small{color:#a6c8f1}
+.architecture-layer strong{color:#eef6ff}
+.architecture-layer span{color:#b5c9e0}
+.architecture-arrow{color:#9dbfe9}
+.roadmap-marker{
+  background:#203757;border-color:#4c719e;color:#d0e5ff;
+  box-shadow:inset 0 1px 0 rgba(238,246,255,.1);
+}
+.roadmap-detail li::marker,.deliverable strong{color:#b1d1ff}
+/* Search is a core operator action: replace legacy brown/modal colors. */
+.search-layer{background:rgba(3,11,24,.79)}
+.search-panel{
+  background:linear-gradient(155deg,#1d304a,#111f33 80%);
+  border-color:#56769e;
+  box-shadow:0 42px 110px rgba(0,5,17,.72),inset 0 1px 0 rgba(233,245,255,.09);
+}
+.search-top{border-bottom-color:#354d6a}
+.search-top input{color:#f6faff}
+.search-hit{color:#e5f0ff}
+.search-hit:hover,.search-hit:focus-visible{background:#284365}
+.search-hit span{color:#adbfda}
+.search-tip{border-top-color:#344c6b;color:#abc0da}
+.scroll-progress{background:linear-gradient(90deg,#5e9de8,#c2dfff)}
+.freshness{border-color:rgba(231,185,128,.3);box-shadow:inset 0 1px 0 rgba(255,255,255,.035)}
+/* States read clearly for mouse, touch, keyboard and reduced motion. */
+:where(a,button,input,select,textarea,[role="button"],[tabindex]):focus-visible{
+  outline:3px solid var(--hq-focus);
+  outline-offset:3px;
+}
+.action-button,.outline-button,.subtle-button,.icon-button,.menu-btn,
+.focus-button,.tab,.board-tab{
+  transition:background-color var(--hq-speed-fast) ease,border-color var(--hq-speed-fast) ease,
+             color var(--hq-speed-fast) ease,box-shadow var(--hq-speed) var(--hq-ease),
+             transform var(--hq-speed) var(--hq-ease);
+}
+.action-button:active,.outline-button:active,.subtle-button:active,.icon-button:active{
+  transform:translateY(1px) scale(.99);
+}
+.action-button:focus-visible,.outline-button:focus-visible{box-shadow:0 0 0 5px rgba(145,194,255,.2)}
+.tab:hover{color:#e4f2ff;border-color:rgba(166,202,251,.34)}
+.tab.active{box-shadow:inset 0 -2px #9ac6ff}
+.motion-ready .motion-reveal{
+  transition-duration:.65s,.7s,.7s;
+}
+/* Responsive readability without forcing desktop density onto small screens. */
+@media(max-width:760px){
+  .page-header h1{letter-spacing:-.045em;line-height:1.15}
+  .section-head{padding-bottom:11px}
+  .metric,.card,.feature-card,.resource-card,.route,.workflow-card,
+  .roadmap-detail,.owner-management-panel,.owner-management-metric{
+    box-shadow:0 6px 19px rgba(1,8,22,.12);
+  }
+  .search-layer{padding:9vh 12px 24px}
+  .search-panel{border-radius:17px}
+}
+@media(prefers-reduced-motion:reduce){
+  .metric,.card,.feature-card,.resource-card,.route,.workflow-card,
+  .owner-management-panel,.owner-management-metric,.owner-handoff-item,
+  .chat-role-card,.action-button,.outline-button,.subtle-button,.icon-button,
+  .menu-btn,.focus-button,.tab,.board-tab,.nav-link{
+    transition:none!important;animation:none!important;
+  }
+  .action-button:active,.outline-button:active,.subtle-button:active,
+  .icon-button:active{transform:none}
+  .motion-ready .motion-reveal{opacity:1!important;transform:none!important;filter:none!important}
+}
