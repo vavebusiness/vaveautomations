@@ -56,3 +56,16 @@ section.secondary-section{padding:47px 0 65px;border-top:1px solid rgba(160,192,
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
 }
+
+/* Email contact chooser: browser-based compose alternatives when mailto has no handler. */
+.contact-cta{display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,.9fr);align-items:center;scroll-margin-top:32px}
+.contact-cta:target{border-color:#9dc7ff;box-shadow:0 0 0 2px rgba(157,199,255,.12),0 23px 56px rgba(0,0,0,.17)}
+.contact-choice-panel{background:rgba(8,20,39,.38);border:1px solid rgba(177,210,255,.22);border-radius:18px;padding:23px;min-width:0}
+.choice-title{color:#edf5ff!important;font-size:14px!important;font-weight:750;margin:0 0 13px!important}
+.contact-choices{display:grid;gap:10px}
+.contact-choices .primary,.contact-choices .secondary{width:100%;min-height:47px}
+.contact-copy{margin-top:16px!important;overflow-wrap:anywhere}
+.contact-address{color:#d4e8ff;font-weight:750;user-select:all}
+.contact-choice-panel .note{margin-top:13px;font-size:12px;line-height:1.6}
+@media(max-width:800px){.contact-cta{grid-template-columns:1fr}.contact-choice-panel{margin-top:8px}}
+@media(max-width:500px){.contact-choice-panel{padding:18px}.contact-cta{scroll-margin-top:18px}}

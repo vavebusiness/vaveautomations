@@ -12,7 +12,11 @@ for(const path of [...routes,...discoveryRoutes,...assets]){
   if((path.endsWith(".html")||path==="")&&!discoveryRoutes.includes(path)){
    if(!body.includes('id="app"'))errors.push(path+": app mount missing");
   }
-  if(path==="work-with-us.html"&&(!body.includes('class="wrap hero"')||!body.includes('href="assets/work-with-us.css"')))errors.push("Discovery page missing hero or stylesheet");
+  if(path==="work-with-us.html"){
+   if(!body.includes('class="wrap hero"')||!body.includes('href="assets/work-with-us.css"'))errors.push("Discovery page missing hero or stylesheet");
+   if(!body.includes('href="#contact"')||!body.includes('id="contact"'))errors.push("Discovery CTA is not linked to contact options");
+   if(!body.includes('https://mail.google.com/mail/?view=cm')||!body.includes('https://outlook.live.com/mail/0/deeplink/compose')||!body.includes('mailto:'))errors.push("Discovery browser/email compose options missing");
+  }
   if(path==="assets/work-with-us.css"&&(!body.includes("@keyframes inquiry-enter")||!body.includes("prefers-reduced-motion:reduce")))errors.push("Discovery motion styles not published");
   if(path==="systems/projects.html"&&!body.includes("project-board.js"))errors.push("Project board module not linked");
   if(path==="systems/owner-data.html"&&!body.includes("owner-live.js"))errors.push("Owner OAuth route not published");
