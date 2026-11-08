@@ -42,6 +42,11 @@ assert.ok(inquiryPage.includes('https://mail.google.com/mail/?view=cm'),"Browser
 assert.ok(inquiryPage.includes('https://outlook.live.com/mail/0/deeplink/compose'),"Browser Outlook compose option missing");
 assert.ok(inquiryPage.includes('mailto:'),"Email app fallback missing");
 assert.ok(inquiryPage.includes("vaveautomations@outlook.com"),"Verified contact destination missing");
+assert.equal((inquiryPage.match(/Vave%20Automations%20%E2%80%94%20Custom%20Automation%20Inquiry/g)||[]).length,3,"All three contact methods must have Vave Automations-only subject");
+assert.ok(!inquiryPage.includes("workflow%20question"),"Legacy ambiguous inquiry subject must not recur");
+assert.ok(!inquiryPage.includes("Vave Workflow Store"),"Separate product-store brand must never appear on client-facing inquiry page");
+assert.ok(!read("assets/hq-data.js").includes("Vave Workflow Store"),"Keep store brand out of public Automations HQ data");
+assert.ok(read("README.md").includes("Strict project separation — Vave Automations ≠ Vave Workflow Store"),"Company Rule #3 must be documented");
 assert.ok(inquiryPage.includes("press <strong>Send</strong> there"),"Must disclose provider-send step");
 assert.ok(!inquiryPage.includes("<form"),"Public discovery page must not collect data");
 assert.ok(inquiryStyles.includes("@keyframes inquiry-enter"),"Discovery entrance motion missing");

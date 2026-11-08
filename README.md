@@ -8,6 +8,7 @@ A responsive, public-safe operations dashboard for a custom workflow automation 
 
 1. **Discovery first — custom automations only.** Ask every business which repetitive, costly or error-prone process it actually needs solved. Understand the tools, workflow, constraints and desired result, then propose a tailored integration. Never pitch a fixed package or identical workflow to all clients.
 2. **Paperless operations.** Prefer digital proposals, approvals, invoices, onboarding and delivery; use legally valid electronic agreements and authorizations when required.
+3. **Strict project separation — Vave Automations ≠ Vave Workflow Store.** Vave Automations is a custom client-services business; Vave Workflow Store is a separate automation-product business. Never merge or reuse their clients, contacts, email accounts, outreach, partners, revenue, reporting, CRM/HQ data, product catalogs, content, Make scenarios, code, marketing, or delivery claims. Work in the named project only; do not count assets or results from the other project as this company's. No cross-promotion or shared offer by default. An explicit new owner instruction is required to change this boundary.
 
 **The existing Make document-to-Sheets prototype is optional technical evidence, not a product to sell to every client.**
 
