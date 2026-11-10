@@ -1,0 +1,26 @@
+[
+  {
+    "eventId": "SYNTH-001",
+    "clientRef": "DEMO-ACME",
+    "filename": "invoice-demo.pdf",
+    "fileHash": "aabbccdd00112233",
+    "documentType": "invoice",
+    "receivedAt": "2026-11-10T10:00:00Z"
+  },
+  {
+    "eventId": "SYNTH-002",
+    "clientRef": "DEMO-ACME",
+    "filename": "invoice-demo-copy.pdf",
+    "fileHash": "aabbccdd00112233",
+    "documentType": "invoice",
+    "receivedAt": "2026-11-10T10:01:00Z"
+  },
+  {
+    "eventId": "SYNTH-003",
+    "clientRef": "DEMO-ACME",
+    "filename": "missing-reference.pdf",
+    "fileHash": "3344556677889900",
+    "documentType": "",
+    "receivedAt": "2026-11-10T10:02:00Z"
+  }
+]

@@ -13,6 +13,8 @@ A responsive, public-safe operations dashboard for a custom workflow automation 
 **The existing Make document-to-Sheets prototype is optional technical evidence, not a product to sell to every client.**
 
 
+**Synthetic proof-of-capability demo:** [Document Intake Review Gate](docs/technical/intake-review-demo/README.md) demonstrates input validation, duplicate control, review routing, and a human approval checkpoint. This is original offline demonstration code with automated tests, not a client deployment, Make scenario, real PDF extractor or saleable template.
+
 ## What is actually implemented
 
 - **Seven departments** (00–06) with four subpages each: overview, SOP, work queue, metrics.
